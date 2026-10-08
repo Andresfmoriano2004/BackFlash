@@ -1,28 +1,99 @@
 /* =========================================================
    BackFlash · Panel de administración
+   Mobile-first: la base es teléfono y se amplía con min-width.
+   Breakpoints: 640 (teléfono grande) · 768 (tablet) · 1024 (escritorio)
+   Única excepción: la tabla pasa a tarjetas con max-width: 719px.
+
+   Los tokens base (color, espaciado, radios, foco) viven en
+   style.css, que se carga antes. Aquí solo se añaden tokens
+   propios del panel con el prefijo --adm-.
    ========================================================= */
 
-/* Los tokens (color, espaciado, radios, foco) viven en style.css,
-   que se carga antes: el panel usa exactamente la misma escala. */
+/* ---------- Tokens propios del panel ---------- */
+:root {
+    /* Alto mínimo de controles compactos; sube a 44px en pantallas táctiles */
+    --adm-tap: 40px;
+
+    /* Elevación al pasar el cursor (se anula con reduced-motion) */
+    --adm-lift-card: -3px;
+    --adm-lift-btn: -2px;
+
+    /* Alinea la barra superior con el contenido en pantallas anchas */
+    --adm-pad-x: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
+
+    /* Navegación */
+    --adm-nav-text: #e8e8e8;
+    --adm-nav-hover: #3d3d3d;
+    --adm-exit: #7a2e2e;
+    --adm-exit-hover: #a13c3c;
+
+    /* Superficies y fichas */
+    --adm-tint: #faf9f5;
+    --adm-tint-unread: #fffaf0;
+    --adm-chip: #f1efe7;
+    --adm-chip-hover: #e5e2d6;
+    --adm-thead: #f7f6f1;
+    --adm-row-hover: #fcfbf7;
+    --adm-img-bg: #f2f0e9;
+    --adm-btn-soft: #efede4;
+
+    /* Estados */
+    --adm-danger-text: #a12b2b;
+    --adm-danger-soft: #fbeaea;
+    --adm-danger-soft-line: #eec9c9;
+    --adm-badge-bg: #eceae2;
+    --adm-warn-bg: #ffe9bd;
+    --adm-warn-text: #7a5600;
+    --adm-ok-bg: #d8f0dd;
+    --adm-bad-bg: #fadcdc;
+
+    /* Fondo del acceso */
+    --adm-login-mid: #17170f;
+    --adm-login-end: #3a3018;
+}
+
+@media (pointer: coarse) {
+    :root {
+        --adm-tap: 44px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --adm-lift-card: 0px;
+        --adm-lift-btn: 0px;
+        --dur: 1ms;
+    }
+}
+
+/* ---------- Base ---------- */
 body.admin {
     background: var(--bg);
     color: var(--ink-soft);
     line-height: var(--lh-body);
 }
 
+/* Foco visible para teclado en todo el panel y en el acceso */
+:is(.admin, .admin-login-body) :is(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
+
 /* ---------- Barra superior ---------- */
 .admin-top {
+    /* En teléfono no es fija: una barra de dos filas come demasiada pantalla.
+       Si prefieres que siempre sea fija, pasa position a sticky aquí. */
+    position: static;
+    top: 0;
+    z-index: 50;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--s-3);
-    padding: var(--s-3) var(--s-6);
+    gap: var(--s-2) var(--s-4);
+    padding: var(--s-3) max(var(--gutter), env(safe-area-inset-right)) var(--s-2) max(var(--gutter), env(safe-area-inset-left));
     background: var(--bg-deep);
     color: var(--surface);
-    position: sticky;
-    top: 0;
-    z-index: 50;
 }
 
 .admin-logo {
@@ -41,28 +112,48 @@ body.admin {
     color: var(--gold-hover);
 }
 
+/* Teléfono: el menú ocupa su propia fila y se desliza en horizontal */
 .admin-nav {
+    flex: 1 1 100%;
     display: flex;
-    flex-wrap: wrap;
     gap: var(--s-1);
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+}
+
+.admin-nav::-webkit-scrollbar {
+    display: none;
 }
 
 .admin-nav a {
+    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
-    color: #e8e8e8;
+    min-height: var(--adm-tap);
     padding: var(--s-2) var(--s-4);
     border-radius: var(--r-sm);
+    color: var(--adm-nav-text);
     font-size: var(--fs-sm);
     font-weight: 600;
+    white-space: nowrap;
+    scroll-snap-align: start;
     transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
-.admin-nav a:hover,
 .admin-nav a:focus-visible {
-    background: #3d3d3d;
+    background: var(--adm-nav-hover);
     color: var(--gold-hover);
+}
+
+@media (hover: hover) {
+    .admin-nav a:hover {
+        background: var(--adm-nav-hover);
+        color: var(--gold-hover);
+    }
 }
 
 .admin-nav a[aria-current="page"] {
@@ -70,37 +161,70 @@ body.admin {
     color: var(--ink);
 }
 
-.admin-salir {
-    background: #7a2e2e;
-    color: #fff !important;
+.admin-nav a.admin-salir {
+    background: var(--adm-exit);
+    color: #fff;
 }
 
-.admin-salir:hover {
-    background: #a13c3c !important;
-    color: #fff !important;
+.admin-nav a.admin-salir:focus-visible {
+    background: var(--adm-exit-hover);
+    color: #fff;
+}
+
+@media (hover: hover) {
+    .admin-nav a.admin-salir:hover {
+        background: var(--adm-exit-hover);
+        color: #fff;
+    }
+}
+
+@media (min-width: 768px) {
+    .admin-top {
+        position: sticky;
+        padding-top: var(--s-3);
+        padding-bottom: var(--s-3);
+        padding-left: max(var(--adm-pad-x), env(safe-area-inset-left));
+        padding-right: max(var(--adm-pad-x), env(safe-area-inset-right));
+    }
+
+    .admin-nav {
+        flex: 0 1 auto;
+        flex-wrap: wrap;
+        margin-inline: 0;
+        padding-inline: 0;
+        overflow: visible;
+        scroll-snap-type: none;
+    }
 }
 
 /* ---------- Contenido ---------- */
 .admin-main {
     max-width: var(--container);
     margin: 0 auto;
-    padding: var(--s-6) var(--gutter) var(--s-16);
-    display: block;
+    padding: var(--s-5) var(--gutter) var(--s-8);
+}
+
+@media (min-width: 768px) {
+    .admin-main {
+        padding-top: var(--s-6);
+        padding-bottom: var(--s-16);
+    }
 }
 
 .admin-footer {
     background: var(--bg);
     text-align: center;
-    padding: var(--s-5);
+    padding: var(--s-5) var(--gutter) max(var(--s-5), env(safe-area-inset-bottom));
     color: var(--muted);
     font-size: var(--fs-xs);
 }
 
+/* ---------- Tarjetas de resumen ---------- */
 .admin-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: var(--s-4);
-    margin-bottom: var(--s-6);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-3);
+    margin-bottom: var(--s-5);
 }
 
 .card {
@@ -109,21 +233,16 @@ body.admin {
     gap: var(--s-1);
     background: var(--surface);
     border: 1px solid var(--line);
-    border-left: 5px solid var(--gold);
+    border-left: 4px solid var(--gold);
     border-radius: var(--r-md);
-    padding: var(--s-5) var(--s-6);
+    padding: var(--s-4);
     color: var(--ink);
     box-shadow: var(--shadow-1);
     transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-2);
-}
-
 .card-num {
-    font-size: var(--fs-3xl);
+    font-size: var(--fs-2xl);
     font-weight: 800;
     line-height: 1;
     color: var(--gold-text);
@@ -133,26 +252,88 @@ body.admin {
 .card-txt {
     font-size: var(--fs-sm);
     color: var(--muted);
+    overflow-wrap: anywhere;
 }
 
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(var(--adm-lift-card));
+        box-shadow: var(--shadow-2);
+    }
+}
+
+@media (min-width: 640px) {
+    .admin-cards {
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: var(--s-4);
+        margin-bottom: var(--s-6);
+    }
+
+    .card {
+        border-left-width: 5px;
+        padding: var(--s-5) var(--s-6);
+    }
+
+    .card-num {
+        font-size: var(--fs-3xl);
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-cards {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+}
+
+/* ---------- Rejillas ---------- */
+/* min(100%, 320px) evita desbordes en pantallas de 320–360px */
 .admin-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--s-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: var(--s-4);
 }
 
+/* Formulario + listado: apilados hasta 1023px, lado a lado en escritorio */
 .admin-grid-form {
-    grid-template-columns: minmax(300px, 380px) 1fr;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-4);
     align-items: start;
 }
 
+/* Sin min-width: 0 una tabla ancha estira la columna y rompe el layout */
+.admin-grid > *,
+.admin-grid-form > * {
+    min-width: 0;
+}
+
+@media (min-width: 768px) {
+    .admin-grid,
+    .admin-grid-form {
+        gap: var(--s-5);
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-grid-form {
+        grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+    }
+}
+
+/* ---------- Paneles ---------- */
 .panel {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
-    padding: var(--s-6);
+    padding: var(--s-4);
     box-shadow: var(--shadow-1);
-    margin-bottom: var(--s-5);
+    margin-bottom: var(--s-4);
+}
+
+/* Dentro de una rejilla el espacio lo da el gap */
+.admin-grid > .panel,
+.admin-grid-form > .panel {
+    margin-bottom: 0;
 }
 
 .panel h2 {
@@ -167,13 +348,27 @@ body.admin {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: var(--s-3);
 }
 
 .panel-cabecera h2 {
     margin-bottom: 0;
 }
 
+@media (min-width: 640px) {
+    .panel {
+        padding: var(--s-5);
+        margin-bottom: var(--s-5);
+    }
+}
+
+@media (min-width: 1024px) {
+    .panel {
+        padding: var(--s-6);
+    }
+}
+
+/* ---------- Listas ---------- */
 .lista {
     list-style: none;
     display: flex;
@@ -184,13 +379,13 @@ body.admin {
 .lista li {
     border-left: 4px solid var(--line);
     padding: var(--s-2) var(--s-3);
-    background: #faf9f5;
+    background: var(--adm-tint);
     border-radius: 0 var(--r-sm) var(--r-sm) 0;
 }
 
 .lista li.sin-leer {
     border-left-color: var(--gold);
-    background: #fffaf0;
+    background: var(--adm-tint-unread);
 }
 
 .lista-meta {
@@ -206,8 +401,10 @@ body.admin {
     font-size: var(--fs-xs);
     color: var(--ink-soft);
     line-height: var(--lh-body);
+    overflow-wrap: anywhere;
 }
 
+/* ---------- Filtros ---------- */
 .filtros {
     display: flex;
     flex-wrap: wrap;
@@ -217,25 +414,34 @@ body.admin {
 .filtros a {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
+    min-height: var(--adm-tap);
     padding: var(--s-2) var(--s-4);
     border-radius: var(--r-pill);
-    background: #f1efe7;
+    background: var(--adm-chip);
     color: var(--ink-soft);
     font-size: var(--fs-xs);
     font-weight: 600;
     transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
 }
 
-.filtros a.activo,
-.filtros a:hover {
+.filtros a.activo {
     background: var(--gold);
     color: var(--ink);
 }
 
+@media (hover: hover) {
+    .filtros a:hover {
+        background: var(--gold);
+        color: var(--ink);
+    }
+}
+
 /* ---------- Tablas ---------- */
+/* Tablet: la tabla conserva sus columnas y se desliza en horizontal */
 .tabla-scroll {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
 }
 
 .tabla {
@@ -243,6 +449,12 @@ body.admin {
     border-collapse: collapse;
     font-size: var(--fs-sm);
     font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 720px) {
+    .tabla {
+        min-width: 640px;
+    }
 }
 
 .tabla th,
@@ -254,28 +466,31 @@ body.admin {
 }
 
 .tabla thead th {
-    background: #f7f6f1;
+    background: var(--adm-thead);
     font-size: var(--fs-2xs);
     text-transform: uppercase;
     letter-spacing: var(--track-caps);
     color: var(--muted);
 }
 
-.tabla tbody tr:hover {
-    background: #fcfbf7;
-}
-
 .tabla tr.sin-leer td {
-    background: #fffaf0;
+    background: var(--adm-tint-unread);
 }
 
 .tabla tr.inactivo td {
-    opacity: .55;
+    opacity: .6;
+}
+
+@media (hover: hover) {
+    .tabla tbody tr:hover {
+        background: var(--adm-row-hover);
+    }
 }
 
 .celda-msg {
     max-width: 340px;
     white-space: pre-line;
+    overflow-wrap: anywhere;
     color: #444;
 }
 
@@ -286,17 +501,97 @@ body.admin {
     border-radius: var(--r-sm);
     vertical-align: middle;
     margin-right: var(--s-2);
-    background: #f2f0e9;
+    background: var(--adm-img-bg);
 }
 
-/* Badges: el texto indica el estado, el color solo lo refuerza */
+/* Teléfono: cada fila se convierte en una tarjeta.
+   Requiere data-label="Nombre de la columna" en cada <td>. */
+@media (max-width: 719px) {
+    .tabla-scroll {
+        overflow-x: visible;
+    }
+
+    .tabla,
+    .tabla tbody {
+        display: block;
+        width: 100%;
+    }
+
+    /* El encabezado se oculta visualmente pero sigue disponible para lectores de pantalla */
+    .tabla thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .tabla tbody tr {
+        display: block;
+        margin-bottom: var(--s-3);
+        padding: var(--s-2) 0;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-md);
+    }
+
+    .tabla tbody tr.sin-leer {
+        background: var(--adm-tint-unread);
+        border-left: 4px solid var(--gold);
+    }
+
+    .tabla td {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: var(--s-1) var(--s-3);
+        padding: var(--s-2) var(--s-4);
+        border-bottom: 0;
+    }
+
+    .tabla td + td {
+        border-top: 1px dashed var(--line);
+    }
+
+    .tabla tr.sin-leer td {
+        background: transparent;
+    }
+
+    .tabla td > * {
+        min-width: 0;
+    }
+
+    .tabla td::before {
+        content: attr(data-label);
+        flex: 0 0 min(38%, 9rem);
+        font-size: var(--fs-2xs);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: var(--track-caps);
+        color: var(--muted);
+    }
+
+    /* Celdas sin etiqueta (por ejemplo, acciones) no reservan hueco */
+    .tabla td:not([data-label])::before,
+    .tabla td[data-label=""]::before {
+        display: none;
+    }
+
+    .celda-msg {
+        max-width: none;
+    }
+}
+
+/* ---------- Insignias ---------- */
+/* El texto indica el estado; el color solo lo refuerza */
 .badge {
     display: inline-block;
-    padding: 3px 10px;
+    padding: .2em .7em;
     border-radius: var(--r-pill);
     font-size: var(--fs-2xs);
     font-weight: 700;
-    background: #eceae2;
+    background: var(--adm-badge-bg);
     color: var(--ink-soft);
     white-space: nowrap;
 }
@@ -307,18 +602,18 @@ body.admin {
 }
 
 .badge-pendiente {
-    background: #ffe9bd;
-    color: #7a5600;
+    background: var(--adm-warn-bg);
+    color: var(--adm-warn-text);
 }
 
 .badge-confirmada {
-    background: #d8f0dd;
+    background: var(--adm-ok-bg);
     color: var(--success);
 }
 
 .badge-cancelada {
-    background: #fadcdc;
-    color: #a12b2b;
+    background: var(--adm-bad-bg);
+    color: var(--adm-danger-text);
 }
 
 /* ---------- Formularios ---------- */
@@ -334,35 +629,36 @@ body.admin {
     color: var(--ink-soft);
 }
 
-.form-admin input,
+/* Campos de texto, select y textarea. Se excluyen casillas, botones y archivos.
+   16px mínimo evita el zoom automático de iOS al enfocar un campo. */
+.form-admin input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="file"], [type="hidden"], [type="range"], [type="color"]),
 .form-admin select,
 .form-admin textarea,
-.panel input[type="text"],
-.panel input[type="number"],
+.panel input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"], [type="file"], [type="hidden"], [type="range"], [type="color"]),
 .panel select,
 .panel textarea {
     width: 100%;
     min-height: 44px;
     padding: var(--s-3);
+    margin-top: var(--s-1);
     border: 1px solid var(--line-input);
     border-radius: var(--r-sm);
-    font-size: var(--fs-md);
+    font-size: max(16px, var(--fs-md));
     font-family: inherit;
     color: var(--ink);
     background: var(--surface);
-    margin-top: var(--s-1);
     box-sizing: border-box;
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 
-.form-admin input:focus,
-.form-admin select:focus,
-.form-admin textarea:focus,
-.panel input:focus,
-.panel select:focus {
+.panel textarea,
+.form-admin textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+:is(.panel, .form-admin, .admin-login) :is(input, select, textarea):focus {
     border-color: var(--gold-text);
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
 }
 
 .form-row {
@@ -373,6 +669,7 @@ body.admin {
 
 .form-row > * {
     flex: 1 1 200px;
+    min-width: 0;
 }
 
 .check {
@@ -397,6 +694,7 @@ body.admin {
     margin-top: var(--s-2);
 }
 
+/* Botón principal */
 .form-actions button,
 .panel button[type="submit"],
 .admin-login button[type="submit"] {
@@ -414,19 +712,22 @@ body.admin {
     font-family: inherit;
     letter-spacing: var(--track-caps);
     text-transform: uppercase;
+    text-align: center;
     cursor: pointer;
     transition: background-color var(--dur) var(--ease),
                 transform var(--dur) var(--ease),
                 box-shadow var(--dur) var(--ease);
 }
 
-.form-actions button:hover,
-.panel button[type="submit"]:hover,
-.admin-login button[type="submit"]:hover {
-    background: var(--gold-hover);
-    border-color: var(--gold-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-1);
+@media (hover: hover) {
+    .form-actions button:hover,
+    .panel button[type="submit"]:hover,
+    .admin-login button[type="submit"]:hover {
+        background: var(--gold-hover);
+        border-color: var(--gold-hover);
+        transform: translateY(var(--adm-lift-btn));
+        box-shadow: var(--shadow-1);
+    }
 }
 
 .form-actions button:active,
@@ -443,8 +744,28 @@ body.admin {
     box-shadow: none;
 }
 
+/* Teléfono: los botones del formulario ocupan todo el ancho */
+.form-actions > button,
+.form-actions > .btn-secundario {
+    flex: 1 1 100%;
+}
+
+.form-actions .btn-secundario {
+    margin-top: 0;
+    justify-content: center;
+}
+
+@media (min-width: 640px) {
+    .form-actions > button,
+    .form-actions > .btn-secundario {
+        flex: 0 0 auto;
+    }
+}
+
+/* Controles dentro de las filas de tabla */
 .form-inline {
     display: inline-flex;
+    flex-wrap: wrap;
     gap: var(--s-2);
     align-items: center;
     margin: 2px 0;
@@ -452,20 +773,26 @@ body.admin {
 
 .form-inline select {
     width: auto;
-    min-height: 40px;
+    min-height: var(--adm-tap);
     margin-top: 0;
     padding: var(--s-2) var(--s-6) var(--s-2) var(--s-3);
     font-size: var(--fs-xs);
 }
 
+@media (pointer: coarse) {
+    .form-inline select {
+        font-size: max(16px, var(--fs-xs));
+    }
+}
+
 .btn-mini {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
+    min-height: var(--adm-tap);
     padding: var(--s-2) var(--s-3);
     font-size: var(--fs-xs);
     font-weight: 600;
-    background: #efedE4;
+    background: var(--adm-btn-soft);
     color: var(--ink-soft);
     border: 1px solid var(--line-input);
     border-radius: var(--r-md);
@@ -476,22 +803,26 @@ body.admin {
                 border-color var(--dur) var(--ease);
 }
 
-.btn-mini:hover {
-    background: var(--gold);
-    border-color: var(--gold);
-    color: var(--ink);
+@media (hover: hover) {
+    .btn-mini:hover {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: var(--ink);
+    }
 }
 
 .btn-peligro {
-    background: #fbeaea;
-    border-color: #eec9c9;
-    color: #a12b2b;
+    background: var(--adm-danger-soft);
+    border-color: var(--adm-danger-soft-line);
+    color: var(--adm-danger-text);
 }
 
-.btn-peligro:hover {
-    background: var(--danger-line);
-    border-color: var(--danger-line);
-    color: #fff;
+@media (hover: hover) {
+    .btn-peligro:hover {
+        background: var(--danger-line);
+        border-color: var(--danger-line);
+        color: #fff;
+    }
 }
 
 .btn-secundario {
@@ -500,7 +831,7 @@ body.admin {
     min-height: 44px;
     margin-top: var(--s-4);
     padding: var(--s-2) var(--s-4);
-    background: #f1efe7;
+    background: var(--adm-chip);
     border: 1px solid var(--line-input);
     border-radius: var(--r-md);
     color: var(--ink-soft);
@@ -510,8 +841,10 @@ body.admin {
     transition: background-color var(--dur) var(--ease);
 }
 
-.btn-secundario:hover {
-    background: #e5e2d6;
+@media (hover: hover) {
+    .btn-secundario:hover {
+        background: var(--adm-chip-hover);
+    }
 }
 
 .field-error {
@@ -535,18 +868,19 @@ body.admin {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(150deg, var(--bg-deep), #17170f 60%, #3a3018);
-    padding: var(--s-6);
+    min-height: 100dvh;
+    background: linear-gradient(150deg, var(--bg-deep), var(--adm-login-mid) 60%, var(--adm-login-end));
+    padding: var(--s-4);
 }
 
 .admin-login {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     background: var(--surface);
     border-radius: var(--r-lg);
-    padding: var(--s-8) var(--s-6);
+    padding: var(--s-6) var(--s-5);
     text-align: center;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+    box-shadow: 0 24px 60px rgb(0 0 0 / .45);
 }
 
 .admin-login-logo {
@@ -588,17 +922,11 @@ body.admin {
     padding: var(--s-3);
     border: 1px solid var(--line-input);
     border-radius: var(--r-sm);
-    font-size: var(--fs-md);
+    font-size: max(16px, var(--fs-md));
     font-family: inherit;
     color: var(--ink);
     box-sizing: border-box;
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-}
-
-.admin-login input:focus {
-    border-color: var(--gold-text);
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
 }
 
 .admin-login button {
@@ -612,50 +940,18 @@ body.admin {
 }
 
 .admin-login-volver a {
+    display: inline-block;
+    padding: var(--s-2);
     color: var(--gold-text);
     text-underline-offset: 4px;
 }
 
-/* ---------- Adaptación a móvil ---------- */
-@media (max-width: 860px) {
-    .admin-grid-form {
-        grid-template-columns: 1fr;
+@media (min-width: 640px) {
+    .admin-login-body {
+        padding: var(--s-6);
     }
 
-    .tabla thead {
-        display: none;
-    }
-
-    .tabla,
-    .tabla tbody,
-    .tabla tr,
-    .tabla td {
-        display: block;
-        width: 100%;
-    }
-
-    .tabla tr {
-        border: 1px solid var(--line);
-        border-radius: var(--r-md);
-        margin-bottom: var(--s-3);
-        padding: var(--s-2) 0;
-    }
-
-    .tabla td {
-        border-bottom: none;
-        display: flex;
-        gap: var(--s-3);
-        justify-content: space-between;
-    }
-
-    .tabla td::before {
-        content: attr(data-label);
-        font-weight: 700;
-        color: var(--ink-soft);
-        flex: 0 0 42%;
-    }
-
-    .celda-msg {
-        max-width: none;
+    .admin-login {
+        padding: var(--s-8) var(--s-6);
     }
 }
