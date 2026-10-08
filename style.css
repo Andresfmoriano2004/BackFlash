@@ -50,10 +50,11 @@
     --s-5: 20px;  --s-6: 24px;  --s-8: 32px;  --s-10: 40px;
     --s-12: 48px; --s-16: 64px; --s-24: 96px;
 
-    /* --- Radios: solo 3 valores en todo el sitio --- */
+    /* --- Radios: 3 valores + píldora para chips y filtros --- */
     --r-sm: 6px;   /* campos y botones pequeños */
     --r-md: 10px;  /* botones, tarjetas y paneles */
     --r-lg: 16px;  /* bloques grandes (hero, imágenes) */
+    --r-pill: 999px;
 
     /* --- Elevación: un nivel normal y uno para destacados --- */
     --shadow-1: 0 1px 2px rgba(35,33,29,.06), 0 10px 24px rgba(35,33,29,.08);
@@ -62,9 +63,6 @@
     /* --- Movimiento: 150-250 ms, ease-out --- */
     --dur: 180ms;
     --ease: cubic-bezier(.2, .6, .2, 1);
-
-    /* --- Foco visible único --- */
-    --focus-ring: 0 0 0 3px rgba(201,165,56,.55);
 
     /* --- Contenedor --- */
     --container: 1200px;
@@ -206,11 +204,15 @@ img{
 }
 
 #menu:focus-visible + label{
-    outline: 3px solid #C9A538;
+    outline: 3px solid var(--gold);
     outline-offset: 4px;
-    border-radius: 4px;
+    border-radius: var(--r-sm);
 }
 
+
+.header-container{
+    width: 100%; /* el texto del hero se centra sobre todo el ancho */
+}
 
 .header-txt{
     text-align: center;
@@ -273,7 +275,7 @@ img{
 
 .information-c1{
     flex: 1; /* iguala la altura de las dos cajas blancas */
-    padding: var(--s-10);
+    padding: var(--s-8);
     text-align: center;
     background-color: var(--surface);
     min-height: 300px;
@@ -342,6 +344,7 @@ h3{
     text-transform: uppercase;
     letter-spacing: var(--track-caps);
     cursor: pointer;
+    white-space: nowrap; /* el botón nunca se parte en dos líneas */
     transition: color var(--dur) var(--ease),
                 background-color var(--dur) var(--ease),
                 border-color var(--dur) var(--ease),
@@ -380,6 +383,11 @@ h3{
     background: var(--gold-hover);
     border-color: var(--gold-hover);
     color: var(--ink);
+}
+
+.btn-solid:active{
+    background: var(--gold-press);
+    border-color: var(--gold-press);
 }
 
 
@@ -582,12 +590,12 @@ h3{
     }
 
     .menu .navbar ul li a{
-        color: #2c2c2c;
+        color: var(--ink);
     }
 
     .menu .navbar ul li a:hover,
     .menu .navbar ul li a[aria-current="page"]{
-        color: #8a6a10;
+        color: var(--gold-text);
     }
 
     .menu .navbar ul li {
@@ -602,10 +610,6 @@ h3{
         min-height: 55vh;
         padding-top: 115px;
         padding-bottom: 55px;
-    }
-
-    .header-content{
-        padding: 100px 30px;
     }
 
     .information-content{
@@ -781,8 +785,8 @@ footer {
 .contact-form textarea:focus,
 .contact-form select:focus {
     border-color: var(--gold-text);
-    box-shadow: var(--focus-ring);
-    outline: none;
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
 }
 
 .contact-form input[aria-invalid="true"],
@@ -829,6 +833,8 @@ footer {
 }
 
 .contact-form button:active {
+    background-color: var(--gold-press);
+    border-color: var(--gold-press);
     transform: translateY(0);
     box-shadow: none;
 }
@@ -939,7 +945,8 @@ summary:focus-visible {
     border-radius: var(--r-sm);
 }
 
-/* Respeta a quien prefiera menos movimiento */
+/* Respeta a quien prefiera menos movimiento:
+   el spinner se sustituye por el texto "Enviando…" */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -948,6 +955,14 @@ summary:focus-visible {
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
         scroll-behavior: auto !important;
+    }
+
+    .contact-form button[data-cargando] {
+        color: var(--ink);
+    }
+
+    .contact-form button[data-cargando]::after {
+        display: none;
     }
 }
 

@@ -118,6 +118,9 @@ document.addEventListener('DOMContentLoaded', function () {
         boton.disabled = true;
         boton.dataset.texto = boton.textContent;
         boton.textContent = 'Enviando…';
+        /* Estado de carga: el CSS muestra un spinner dentro del botón */
+        boton.dataset.cargando = 'true';
+        boton.setAttribute('aria-busy', 'true');
       }
     });
 
