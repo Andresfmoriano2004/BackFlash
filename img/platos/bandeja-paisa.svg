@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de bandeja paisa">
+  <defs>
+    <linearGradient id="bpBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF3DC"/>
+      <stop offset="1" stop-color="#EEDCB4"/>
+    </linearGradient>
+    <linearGradient id="bpPlatter" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EDE6D6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bpBg)"/>
+  <circle cx="700" cy="80" r="130" fill="#C9A538" opacity=".16"/>
+  <circle cx="90" cy="530" r="110" fill="#C9A538" opacity=".12"/>
+  <rect y="520" width="800" height="80" fill="#8B5E34" opacity=".25"/>
+
+  <!-- Bandeja -->
+  <ellipse cx="400" cy="330" rx="330" ry="190" fill="#000" opacity=".10"/>
+  <ellipse cx="400" cy="315" rx="330" ry="190" fill="url(#bpPlatter)"/>
+  <ellipse cx="400" cy="315" rx="300" ry="163" fill="#FFFDF7"/>
+
+  <!-- Frijoles -->
+  <ellipse cx="275" cy="300" rx="125" ry="105" fill="#4A2A15"/>
+  <g fill="#6B3F20">
+    <ellipse cx="235" cy="265" rx="20" ry="13" transform="rotate(-20 235 265)"/>
+    <ellipse cx="300" cy="255" rx="20" ry="13" transform="rotate(15 300 255)"/>
+    <ellipse cx="265" cy="330" rx="20" ry="13" transform="rotate(-8 265 330)"/>
+    <ellipse cx="330" cy="320" rx="20" ry="13" transform="rotate(25 330 320)"/>
+    <ellipse cx="215" cy="335" rx="18" ry="12" transform="rotate(10 215 335)"/>
+    <ellipse cx="300" cy="375" rx="18" ry="12" transform="rotate(-15 300 375)"/>
+  </g>
+
+  <!-- Carne molida -->
+  <ellipse cx="470" cy="245" rx="105" ry="68" fill="#7A4A25"/>
+  <g fill="#8F5A2E">
+    <circle cx="440" cy="230" r="14"/><circle cx="485" cy="222" r="12"/>
+    <circle cx="510" cy="252" r="13"/><circle cx="455" cy="268" r="13"/>
+    <circle cx="500" cy="275" r="10"/><circle cx="425" cy="258" r="10"/>
+  </g>
+
+  <!-- Chicharrón -->
+  <g transform="rotate(-8 560 340)">
+    <rect x="490" y="305" width="150" height="34" rx="14" fill="#D89A3E"/>
+    <rect x="500" y="345" width="140" height="32" rx="14" fill="#C9862F"/>
+    <path d="M505 315h120M505 355h110" stroke="#F0C078" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Huevo -->
+  <ellipse cx="330" cy="420" rx="72" ry="52" fill="#FFFFFF"/>
+  <ellipse cx="336" cy="420" rx="34" ry="27" fill="#F5B731"/>
+  <ellipse cx="336" cy="414" rx="16" ry="12" fill="#FFD873"/>
+
+  <!-- Arepa -->
+  <ellipse cx="450" cy="435" rx="58" ry="44" fill="#FBF3DF"/>
+  <ellipse cx="450" cy="430" rx="58" ry="44" fill="#FFFDF2"/>
+  <ellipse cx="450" cy="430" rx="38" ry="27" fill="#F2E7CB"/>
+
+  <!-- Aguacate -->
+  <g fill="#5C8C4A">
+    <path d="M565 405c26-8 52 4 60 26-24 14-52 8-66-10z"/>
+    <path d="M585 445c26-8 52 4 60 26-24 14-52 8-66-10z" opacity=".85"/>
+  </g>
+
+  <!-- Plátano frito -->
+  <g fill="#E8B23A">
+    <path d="M160 400c34-22 74-20 104 6-32 22-76 22-104-6z"/>
+    <path d="M150 448c34-22 74-20 104 6-32 22-76 22-104-6z" opacity=".9"/>
+  </g>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de sancocho de pescado">
+  <defs>
+    <linearGradient id="szBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EAF6F3"/>
+      <stop offset="1" stop-color="#CDE7E0"/>
+    </linearGradient>
+    <linearGradient id="szBowl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D9D6CB"/>
+    </linearGradient>
+    <linearGradient id="szFish" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F6E7CE"/>
+      <stop offset="1" stop-color="#E2C79E"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#szBg)"/>
+  <circle cx="100" cy="100" r="120" fill="#4F9E8B" opacity=".16"/>
+  <circle cx="710" cy="520" r="140" fill="#C9A538" opacity=".14"/>
+  <rect y="505" width="800" height="95" fill="#8B5E34" opacity=".22"/>
+
+  <g fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" opacity=".7">
+    <path d="M340 200c26-30-26-52 0-84"/>
+    <path d="M460 205c26-30-26-52 0-84"/>
+  </g>
+
+  <ellipse cx="400" cy="505" rx="300" ry="58" fill="#000" opacity=".10"/>
+  <ellipse cx="400" cy="486" rx="300" ry="58" fill="#F6F2E8"/>
+
+  <path d="M165 292C165 432 265 482 400 482s235-50 235-190z" fill="url(#szBowl)"/>
+  <ellipse cx="400" cy="292" rx="235" ry="80" fill="#FDFBF6"/>
+  <ellipse cx="400" cy="292" rx="205" ry="66" fill="#DCEBE2"/>
+  <ellipse cx="400" cy="292" rx="205" ry="66" fill="#E9F4EC" opacity=".65"/>
+
+  <!-- Lomo de pescado -->
+  <path d="M240 300c40-46 130-58 200-30 44 18 66 44 60 66-56 34-166 34-232-4-18-10-28-20-28-32z" fill="url(#szFish)"/>
+  <g stroke="#C9A97A" stroke-width="6" stroke-linecap="round" opacity=".8">
+    <path d="M275 300c8 14 8 26 2 38"/>
+    <path d="M320 292c9 16 9 30 2 44"/>
+    <path d="M365 292c9 16 9 30 2 44"/>
+    <path d="M410 300c8 14 8 26 2 38"/>
+  </g>
+  <!-- Cola -->
+  <path d="M492 268c34-16 66-6 78 22-28 26-64 24-82-4z" fill="#E9D2AF"/>
+
+  <!-- Patacón -->
+  <g fill="#E8C24A">
+    <ellipse cx="300" cy="372" rx="52" ry="30"/>
+    <ellipse cx="392" cy="384" rx="48" ry="27" opacity=".95"/>
+  </g>
+  <g fill="#F2D97A" opacity=".8">
+    <ellipse cx="300" cy="370" rx="34" ry="18"/>
+    <ellipse cx="392" cy="382" rx="31" ry="16"/>
+  </g>
+
+  <!-- Limón -->
+  <g transform="translate(505 360)">
+    <circle r="34" fill="#8CBF4A"/>
+    <circle r="26" fill="#E9F5C6"/>
+    <g stroke="#8CBF4A" stroke-width="4">
+      <path d="M0-24V24M-24 0H24M-17-17 17 17M17-17-17 17"/>
+    </g>
+  </g>
+
+  <!-- Cilantro -->
+  <g fill="#4F7F3F">
+    <path d="M360 252c14-16 34-16 46-2-14 14-34 14-46 2z"/>
+    <path d="M410 264c14-16 34-16 46-2-14 14-34 14-46 2z"/>
+  </g>
+</svg>

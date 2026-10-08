@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de espaguetis a la carbonara">
+  <defs>
+    <linearGradient id="caBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF6E6"/>
+      <stop offset="1" stop-color="#F0DFC0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#caBg)"/>
+  <circle cx="710" cy="90" r="130" fill="#C9A538" opacity=".16"/>
+  <circle cx="90" cy="520" r="110" fill="#C9A538" opacity=".12"/>
+  <rect y="505" width="800" height="95" fill="#8B5E34" opacity=".25"/>
+
+  <g fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" opacity=".6">
+    <path d="M355 195c26-30-26-52 0-84"/>
+    <path d="M445 205c26-30-26-52 0-84"/>
+  </g>
+
+  <!-- Plato -->
+  <ellipse cx="400" cy="500" rx="310" ry="62" fill="#000" opacity=".10"/>
+  <ellipse cx="400" cy="480" rx="310" ry="62" fill="#EFEAE0"/>
+  <ellipse cx="400" cy="470" rx="310" ry="62" fill="#FFFFFF"/>
+  <ellipse cx="400" cy="470" rx="235" ry="46" fill="#FBF7EF"/>
+
+  <!-- Nido de pasta -->
+  <g fill="none" stroke="#F0D078" stroke-width="17" stroke-linecap="round">
+    <path d="M215 440c60-70 150-95 230-70 70 22 108 66 96 104"/>
+    <path d="M240 470c70-46 170-52 240-8 46 29 60 62 34 84"/>
+    <path d="M265 415c78-38 178-33 240 22"/>
+    <path d="M300 495c66-30 150-24 200 20"/>
+    <path d="M255 450c55-56 145-70 220-42"/>
+  </g>
+  <g fill="none" stroke="#E7BE58" stroke-width="7" stroke-linecap="round" opacity=".7">
+    <path d="M235 445c65-60 155-82 232-58"/>
+    <path d="M262 478c70-42 165-46 232-6"/>
+  </g>
+
+  <!-- Huevo -->
+  <ellipse cx="410" cy="430" rx="62" ry="46" fill="#FFFDF6"/>
+  <ellipse cx="414" cy="430" rx="36" ry="28" fill="#F5A623"/>
+  <ellipse cx="414" cy="423" rx="17" ry="12" fill="#FFCF6B"/>
+
+  <!-- Tocino -->
+  <g transform="rotate(-14 300 400)">
+    <rect x="272" y="384" width="70" height="26" rx="12" fill="#C4622F"/>
+    <rect x="278" y="389" width="58" height="8" rx="4" fill="#E08A55"/>
+  </g>
+  <g transform="rotate(16 520 470)">
+    <rect x="492" y="456" width="72" height="26" rx="12" fill="#C4622F"/>
+    <rect x="498" y="461" width="60" height="8" rx="4" fill="#E08A55"/>
+  </g>
+  <rect x="470" y="380" width="58" height="22" rx="10" transform="rotate(-8 499 391)" fill="#C4622F"/>
+
+  <!-- Queso rallado -->
+  <g fill="#FFF6DE">
+    <rect x="330" y="368" width="26" height="7" rx="3.5" transform="rotate(-20 343 371)"/>
+    <rect x="452" y="470" width="26" height="7" rx="3.5" transform="rotate(24 465 473)"/>
+    <rect x="368" y="486" width="24" height="7" rx="3.5" transform="rotate(-12 380 489)"/>
+    <rect x="500" y="425" width="24" height="7" rx="3.5" transform="rotate(14 512 428)"/>
+    <rect x="278" y="440" width="24" height="7" rx="3.5" transform="rotate(30 290 443)"/>
+  </g>
+
+  <!-- Perejil -->
+  <path d="M355 415c12-14 30-14 40-2-12 12-30 12-40 2z" fill="#4F7F3F"/>
+  <path d="M470 445c12-14 30-14 40-2-12 12-30 12-40 2z" fill="#5C8C4A"/>
+</svg>

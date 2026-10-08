@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración del salón del restaurante">
+  <defs>
+    <linearGradient id="intWall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3E3524"/>
+      <stop offset="1" stop-color="#211C13"/>
+    </linearGradient>
+    <radialGradient id="intLamp" cx=".5" cy=".25" r=".6">
+      <stop offset="0" stop-color="#FFD97A" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#FFD97A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#intWall)"/>
+  <rect width="800" height="600" fill="url(#intLamp)"/>
+
+  <!-- Ventana con vista -->
+  <rect x="500" y="80" width="230" height="230" rx="12" fill="#7E9BA8" opacity=".45"/>
+  <rect x="500" y="80" width="230" height="230" rx="12" fill="none" stroke="#C9A538" stroke-width="8"/>
+  <path d="M615 80v230M500 195h230" stroke="#C9A538" stroke-width="6" opacity=".8"/>
+
+  <!-- Lámparas colgantes -->
+  <g stroke="#0F0D09" stroke-width="6">
+    <path d="M215 0v130"/>
+    <path d="M395 0v90"/>
+  </g>
+  <path d="M160 130h110l-22 60h-66z" fill="#C9A538"/>
+  <path d="M350 90h90l-18 52h-54z" fill="#ffbd4c"/>
+  <ellipse cx="215" cy="196" rx="34" ry="10" fill="#FFF1CB"/>
+  <ellipse cx="395" cy="146" rx="27" ry="8" fill="#FFF1CB"/>
+
+  <!-- Planta -->
+  <path d="M700 470c0-60 30-100 70-110-10 60-30 95-70 110z" fill="#5C8C4A"/>
+  <path d="M700 470c-30-45-30-90-10-120 25 45 25 90 10 120z" fill="#6FA75B"/>
+  <path d="M668 470h64l-8 74h-48z" fill="#B4763E"/>
+
+  <!-- Mesa y sillas -->
+  <rect x="70" y="420" width="430" height="30" rx="10" fill="#A9743F"/>
+  <rect x="70" y="420" width="430" height="10" rx="5" fill="#C08A50"/>
+  <rect x="104" y="450" width="24" height="110" rx="8" fill="#6E4826"/>
+  <rect x="442" y="450" width="24" height="110" rx="8" fill="#6E4826"/>
+
+  <g fill="#7A5230">
+    <rect x="120" y="470" width="90" height="26" rx="10"/>
+    <rect x="132" y="496" width="14" height="66" rx="6"/>
+    <rect x="184" y="496" width="14" height="66" rx="6"/>
+    <rect x="330" y="470" width="90" height="26" rx="10"/>
+    <rect x="342" y="496" width="14" height="66" rx="6"/>
+    <rect x="394" y="496" width="14" height="66" rx="6"/>
+  </g>
+
+  <!-- Sobre la mesa -->
+  <ellipse cx="200" cy="420" rx="66" ry="18" fill="#FFFDF7"/>
+  <ellipse cx="200" cy="415" rx="66" ry="18" fill="#FFF9EC"/>
+  <ellipse cx="200" cy="415" rx="42" ry="11" fill="#EFE2C6"/>
+  <rect x="300" y="384" width="46" height="36" rx="8" fill="#F5F4F0"/>
+  <path d="M346 392c22 0 22 22 0 22" fill="none" stroke="#F5F4F0" stroke-width="8"/>
+
+  <!-- Suelo -->
+  <rect y="560" width="800" height="40" fill="#141009"/>
+</svg>

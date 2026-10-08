@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de estofado de carne">
+  <defs>
+    <linearGradient id="esBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF1E4"/>
+      <stop offset="1" stop-color="#EDD9C4"/>
+    </linearGradient>
+    <linearGradient id="esBowl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#DCD5C6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#esBg)"/>
+  <circle cx="110" cy="90" r="120" fill="#C9A538" opacity=".14"/>
+  <circle cx="710" cy="520" r="140" fill="#C9A538" opacity=".12"/>
+  <rect y="500" width="800" height="100" fill="#8B5E34" opacity=".25"/>
+
+  <!-- Vapor -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" opacity=".65">
+    <path d="M320 210c26-30-26-52 0-84"/>
+    <path d="M400 185c26-30-26-52 0-84"/>
+    <path d="M480 210c26-30-26-52 0-84"/>
+  </g>
+
+  <!-- Plato -->
+  <ellipse cx="400" cy="500" rx="300" ry="60" fill="#000" opacity=".10"/>
+  <ellipse cx="400" cy="480" rx="300" ry="60" fill="#F6F2E8"/>
+
+  <!-- Tazón -->
+  <path d="M165 290C165 430 265 480 400 480s235-50 235-190z" fill="url(#esBowl)"/>
+  <ellipse cx="400" cy="290" rx="235" ry="80" fill="#FDFBF6"/>
+  <ellipse cx="400" cy="290" rx="205" ry="66" fill="#6E3B1E"/>
+
+  <!-- Guiso -->
+  <g fill="#8A4E24">
+    <rect x="270" y="255" width="70" height="52" rx="14" transform="rotate(-12 305 281)"/>
+    <rect x="420" y="250" width="76" height="54" rx="14" transform="rotate(10 458 277)"/>
+    <rect x="345" y="300" width="72" height="52" rx="14"/>
+  </g>
+  <g fill="#C98B4A">
+    <rect x="250" y="300" width="58" height="44" rx="12" transform="rotate(8 279 322)"/>
+    <rect x="470" y="305" width="62" height="46" rx="12" transform="rotate(-9 501 328)"/>
+  </g>
+  <g fill="#E0913F">
+    <rect x="330" y="230" width="64" height="42" rx="12" transform="rotate(-6 362 251)"/>
+    <rect x="405" y="330" width="66" height="44" rx="12" transform="rotate(6 438 352)"/>
+  </g>
+
+  <!-- Verduras -->
+  <g fill="#5C8C4A">
+    <ellipse cx="300" cy="345" rx="24" ry="16" transform="rotate(-18 300 345)"/>
+    <ellipse cx="480" cy="245" rx="22" ry="15" transform="rotate(20 480 245)"/>
+  </g>
+
+  <!-- Cuchara -->
+  <g transform="rotate(24 640 420)">
+    <rect x="620" y="300" width="16" height="200" rx="8" fill="#C8C8C8"/>
+    <ellipse cx="628" cy="288" rx="34" ry="46" fill="#DCDCDC"/>
+    <ellipse cx="628" cy="288" rx="22" ry="32" fill="#B9B9B9"/>
+  </g>
+</svg>

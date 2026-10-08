@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de reservaciones">
+  <defs>
+    <linearGradient id="resBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF6E2"/>
+      <stop offset="1" stop-color="#F0DFB8"/>
+    </linearGradient>
+    <linearGradient id="resCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#F7F3E8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#resBg)"/>
+  <circle cx="660" cy="90" r="150" fill="#C9A538" opacity=".18"/>
+  <circle cx="90" cy="520" r="120" fill="#C9A538" opacity=".14"/>
+
+  <!-- Mesa -->
+  <rect x="60" y="430" width="680" height="34" rx="10" fill="#8B5E34"/>
+  <rect x="60" y="430" width="680" height="12" rx="6" fill="#A9743F"/>
+  <rect x="120" y="464" width="26" height="110" rx="8" fill="#6E4826"/>
+  <rect x="654" y="464" width="26" height="110" rx="8" fill="#6E4826"/>
+
+  <!-- Vajilla -->
+  <ellipse cx="230" cy="430" rx="92" ry="26" fill="#ffffff"/>
+  <ellipse cx="230" cy="424" rx="92" ry="26" fill="#FFFDF7"/>
+  <ellipse cx="230" cy="424" rx="62" ry="17" fill="#F1E7D2"/>
+  <rect x="336" y="392" width="9" height="42" rx="4" fill="#B9B9B9"/>
+  <path d="M120 392h18v34a6 6 0 0 0 12 0v-34h18v34a12 12 0 0 1-24 0v-14h-24v14a12 12 0 0 1-24 0v-34z" fill="#B9B9B9" transform="translate(0 8) scale(1)"/>
+
+  <!-- Tarjeta de reserva -->
+  <g>
+    <rect x="420" y="130" width="300" height="230" rx="18" fill="url(#resCard)" stroke="#E4D6B4" stroke-width="3"/>
+    <rect x="420" y="130" width="300" height="54" rx="18" fill="#C9A538"/>
+    <rect x="420" y="166" width="300" height="18" fill="#C9A538"/>
+    <circle cx="470" cy="157" r="9" fill="#FFF6E2"/>
+    <circle cx="670" cy="157" r="9" fill="#FFF6E2"/>
+    <!-- Rejilla del calendario -->
+    <g fill="#DFD3B6">
+      <rect x="450" y="205" width="52" height="34" rx="6"/>
+      <rect x="514" y="205" width="52" height="34" rx="6"/>
+      <rect x="578" y="205" width="52" height="34" rx="6"/>
+      <rect x="642" y="205" width="52" height="34" rx="6"/>
+      <rect x="450" y="251" width="52" height="34" rx="6"/>
+      <rect x="578" y="251" width="52" height="34" rx="6"/>
+      <rect x="642" y="251" width="52" height="34" rx="6"/>
+      <rect x="450" y="297" width="52" height="34" rx="6"/>
+      <rect x="514" y="297" width="52" height="34" rx="6"/>
+      <rect x="642" y="297" width="52" height="34" rx="6"/>
+    </g>
+    <rect x="514" y="251" width="52" height="34" rx="6" fill="#C9A538"/>
+    <rect x="578" y="297" width="52" height="34" rx="6" fill="#ffbd4c"/>
+  </g>
+
+  <!-- Palabra clave: check -->
+  <g transform="translate(330 240)">
+    <circle r="64" fill="#2c2c2c"/>
+    <path d="M-28 4 -8 24 30 -20" fill="none" stroke="#C9A538" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

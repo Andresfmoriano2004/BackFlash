@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" width="1600" height="700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Textura decorativa BackFlash">
+  <defs>
+    <linearGradient id="bg2Base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d1a12"/>
+      <stop offset=".5" stop-color="#3a3018"/>
+      <stop offset="1" stop-color="#17140d"/>
+    </linearGradient>
+    <radialGradient id="bg2Glow" cx=".5" cy=".45" r=".55">
+      <stop offset="0" stop-color="#C9A538" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#C9A538" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="bg2Dots" width="70" height="70" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="3.5" fill="#C9A538" opacity=".35"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="700" fill="url(#bg2Base)"/>
+  <rect width="1600" height="700" fill="url(#bg2Glow)"/>
+  <rect width="1600" height="700" fill="url(#bg2Dots)"/>
+
+  <!-- Cintas diagonales -->
+  <g opacity=".2">
+    <path d="M-100 620 L520 -40 L700 -40 L80 620 Z" fill="#C9A538"/>
+    <path d="M900 740 L1520 80 L1660 80 L1040 740 Z" fill="#ffbd4c"/>
+  </g>
+
+  <!-- Tenedores y hojas decorativos -->
+  <g fill="none" stroke="#F5F4F0" stroke-width="7" opacity=".14" stroke-linecap="round">
+    <path d="M300 120v90M330 120v90M360 120v90M300 210h60v40a30 30 0 0 1-60 0z"/>
+    <path d="M1240 420c40-40 90-30 110 10-50 30-95 20-110-10z"/>
+    <path d="M420 480c40-40 90-30 110 10-50 30-95 20-110-10z"/>
+    <path d="M1180 140c-40 40-30 90 10 110 30-50 20-95-10-110z"/>
+  </g>
+
+  <rect y="660" width="1600" height="40" fill="#000" opacity=".35"/>
+</svg>

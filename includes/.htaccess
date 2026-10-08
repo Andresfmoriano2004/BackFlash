@@ -1,0 +1,9 @@
+# Denegar el acceso web a las funciones y configuración
+# (se incluyen por ruta de fichero, nunca por HTTP)
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

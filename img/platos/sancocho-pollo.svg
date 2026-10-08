@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustración de sancocho de pollo">
+  <defs>
+    <linearGradient id="spBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF7E0"/>
+      <stop offset="1" stop-color="#F1E2B8"/>
+    </linearGradient>
+    <linearGradient id="spBowl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#DDD6C6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#spBg)"/>
+  <circle cx="700" cy="90" r="130" fill="#C9A538" opacity=".16"/>
+  <circle cx="80" cy="520" r="110" fill="#5C8C4A" opacity=".12"/>
+  <rect y="505" width="800" height="95" fill="#8B5E34" opacity=".25"/>
+
+  <!-- Vapor -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" opacity=".6">
+    <path d="M330 200c26-30-26-52 0-84"/>
+    <path d="M470 200c26-30-26-52 0-84"/>
+  </g>
+
+  <ellipse cx="400" cy="505" rx="300" ry="58" fill="#000" opacity=".10"/>
+  <ellipse cx="400" cy="486" rx="300" ry="58" fill="#F6F2E8"/>
+
+  <!-- Tazón -->
+  <path d="M165 292C165 432 265 482 400 482s235-50 235-190z" fill="url(#spBowl)"/>
+  <ellipse cx="400" cy="292" rx="235" ry="80" fill="#FDFBF6"/>
+  <!-- Caldo -->
+  <ellipse cx="400" cy="292" rx="205" ry="66" fill="#E8B93F"/>
+  <ellipse cx="400" cy="292" rx="205" ry="66" fill="#F0C64F" opacity=".7"/>
+
+  <!-- Pollo -->
+  <g>
+    <path d="M265 285c0-32 30-52 62-44 26 7 40 30 34 54-6 24-32 38-60 32-24-5-36-24-36-42z" fill="#D79A4E"/>
+    <rect x="243" y="300" width="70" height="26" rx="13" transform="rotate(28 278 313)" fill="#F2E3C6"/>
+    <circle cx="322" cy="316" r="13" fill="#F7EFD9"/>
+  </g>
+
+  <!-- Mazorca -->
+  <g transform="rotate(-18 470 300)">
+    <rect x="430" y="255" width="96" height="46" rx="23" fill="#F2C744"/>
+    <path d="M440 262v32M458 258v40M476 256v44M494 258v40M512 262v32" stroke="#D8A82C" stroke-width="5"/>
+    <path d="M526 268c26-8 44 6 44 26-22 10-40 4-46-14z" fill="#5C8C4A"/>
+  </g>
+
+  <!-- Yuca y plátano -->
+  <g fill="#FBF3DF">
+    <rect x="330" y="330" width="72" height="44" rx="16" transform="rotate(-8 366 352)"/>
+    <rect x="420" y="345" width="66" height="42" rx="16" transform="rotate(12 453 366)"/>
+  </g>
+  <g fill="#E8B23A">
+    <path d="M520 335c34-18 74-12 98 14-32 20-76 18-98-14z"/>
+    <path d="M240 350c34-18 74-12 98 14-32 20-76 18-98-14z" opacity=".92"/>
+  </g>
+
+  <!-- Cilantro -->
+  <g fill="#4F7F3F">
+    <path d="M380 250c14-16 34-16 46-2-14 14-34 14-46 2z"/>
+    <path d="M430 262c14-16 34-16 46-2-14 14-34 14-46 2z"/>
+  </g>
+</svg>
