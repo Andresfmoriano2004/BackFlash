@@ -26,11 +26,16 @@ $enlacesAdmin = [
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Panel de administración de BackFlash: mensajes, reservas y menú.">
     <link rel="icon" href="<?= e(url('public/assets/img/favicon.svg')) ?>" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Satisfy&display=swap">
     <link rel="stylesheet" href="<?= e(url('public/css/style.css')) ?>">
     <link rel="stylesheet" href="<?= e(url('public/css/admin.css')) ?>">
     <title><?= e($tituloPagina) ?> · BackFlash</title>
 </head>
 <body class="admin">
+
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
 <header class="admin-top">
     <a class="admin-logo" href="<?= e(url('admin/index.php')) ?>">
@@ -49,7 +54,7 @@ $enlacesAdmin = [
     </nav>
 </header>
 
-<main class="admin-main">
+<main id="contenido" class="admin-main" tabindex="-1">
 <?php foreach (flash_get() as $alerta): ?>
     <div class="alert alert-<?= e($alerta['tipo']) ?>" role="status">
         <div class="container"><?= e($alerta['texto']) ?></div>

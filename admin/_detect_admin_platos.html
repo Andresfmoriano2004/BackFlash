@@ -1,0 +1,319 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Panel de administración de BackFlash: mensajes, reservas y menú.">
+    <link rel="icon" href="/BackFlash/public/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;family=Satisfy&amp;display=swap">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <title>Menú · BackFlash</title>
+</head>
+<body class="admin">
+
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="admin-top">
+    <a class="admin-logo" href="/BackFlash/admin/index.php">
+        <img src="/BackFlash/public/assets/img/favicon.svg" alt="" width="28" height="28">
+        BackFlash <span>Admin</span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Menú de administración">
+                    <a href="/BackFlash/admin/index.php">
+                Resumen            </a>
+                    <a href="/BackFlash/admin/mensajes.php">
+                Mensajes            </a>
+                    <a href="/BackFlash/admin/reservas.php">
+                Reservas            </a>
+                    <a href="/BackFlash/admin/platos.php" aria-current="page">
+                Menú            </a>
+                <a href="/BackFlash/index.php" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <a href="/BackFlash/admin/logout.php" class="admin-salir">Salir</a>
+    </nav>
+</header>
+
+<main id="contenido" class="admin-main" tabindex="-1">
+
+<section class="admin-grid admin-grid-form">
+    <div class="panel">
+        <h2>Agregar plato o bebida</h2>
+
+        <form method="post" enctype="multipart/form-data" class="form-admin">
+            <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">            <input type="hidden" name="accion" value="guardar">
+            <input type="hidden" name="id" value="0">
+
+            <div class="form-group">
+                <label for="p-nombre">Nombre *</label>
+                <input type="text" id="p-nombre" name="nombre" required="" maxlength="120" value="">
+                            </div>
+
+            <div class="form-group">
+                <label for="p-desc">Descripción</label>
+                <textarea id="p-desc" name="descripcion" rows="2" maxlength="255"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="p-precio">Precio (COP) *</label>
+                    <input type="text" id="p-precio" name="precio" required="" inputmode="decimal" placeholder="20000" value="">
+                                    </div>
+
+                <div class="form-group">
+                    <label for="p-cat">Categoría *</label>
+                    <select id="p-cat" name="categoria" required="">
+                        <option value="plato" selected="">Plato fuerte</option>
+                        <option value="bebida">Bebida</option>
+                    </select>
+                                    </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="p-orden">Orden</label>
+                    <input type="number" id="p-orden" name="orden" min="0" max="999" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="p-img">Imagen (JPG, PNG o WEBP · máx. 3 MB)</label>
+                    <input type="file" id="p-img" name="imagen" accept="image/jpeg,image/png,image/webp">
+                                        <div class="img-preview" id="p-img-preview" hidden="">
+                                                <span class="img-preview-nombre" data-nombre=""></span>
+                    </div>
+                                    </div>
+            </div>
+
+            <div class="form-row">
+                <label class="check"><input type="checkbox" name="destacado" value="1"> Destacar en la portada</label>
+                <label class="check"><input type="checkbox" name="activo" value="1" checked=""> Visible en el menú</label>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Agregar al menú</button>
+                            </div>
+        </form>
+    </div>
+
+    <div class="panel">
+        <h2>Menú actual (10)</h2>
+
+                    <div class="tabla-scroll">
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>Plato</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/platos/bandeja-paisa.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Bandeja paisa                                    <span class="badge badge-gold">Destacado</span>                                </td>
+                                <td data-label="Categoría">Plato</td>
+                                <td data-label="Precio">$20.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=1">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Bandeja paisa del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="1">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/platos/estofado.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Estofado de carne                                    <span class="badge badge-gold">Destacado</span>                                </td>
+                                <td data-label="Categoría">Plato</td>
+                                <td data-label="Precio">$38.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=2">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Estofado de carne del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="2">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/platos/sancocho-pollo.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Sancocho de pollo                                    <span class="badge badge-gold">Destacado</span>                                </td>
+                                <td data-label="Categoría">Plato</td>
+                                <td data-label="Precio">$25.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=3">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Sancocho de pollo del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="3">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/platos/sancocho-pescado.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Sancocho de pescado                                                                    </td>
+                                <td data-label="Categoría">Plato</td>
+                                <td data-label="Precio">$28.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=4">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Sancocho de pescado del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="4">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/platos/carbonara.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Espaguetis a la carbonara                                    <span class="badge badge-gold">Destacado</span>                                </td>
+                                <td data-label="Categoría">Plato</td>
+                                <td data-label="Precio">$22.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=5">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Espaguetis a la carbonara del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="5">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/bebidas/jugo-mora.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Jugo de mora                                                                    </td>
+                                <td data-label="Categoría">Bebida</td>
+                                <td data-label="Precio">$6.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=6">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Jugo de mora del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="6">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/bebidas/jugo-maracuya.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Jugo de maracuyá                                                                    </td>
+                                <td data-label="Categoría">Bebida</td>
+                                <td data-label="Precio">$6.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=7">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Jugo de maracuyá del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="7">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/bebidas/jugo-mango.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Jugo de mango                                                                    </td>
+                                <td data-label="Categoría">Bebida</td>
+                                <td data-label="Precio">$6.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=8">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Jugo de mango del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="8">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/bebidas/jugo-lulo.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Jugo de lulo                                                                    </td>
+                                <td data-label="Categoría">Bebida</td>
+                                <td data-label="Precio">$6.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=9">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Jugo de lulo del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="9">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td data-label="Plato">
+                                                                            <img class="mini" src="/BackFlash/public/assets/img/bebidas/cafe-tinto.webp" alt="" width="44" height="34" loading="lazy">
+                                                                        Café tinto                                                                    </td>
+                                <td data-label="Categoría">Bebida</td>
+                                <td data-label="Precio">$4.000 COP</td>
+                                <td data-label="Estado">
+                                    <span class="badge badge-confirmada">
+                                        Visible                                    </span>
+                                </td>
+                                <td data-label="Acciones">
+                                    <a class="btn-mini" href="/BackFlash/admin/platos.php?editar=10">Editar</a>
+                                    <form method="post" class="form-inline" data-confirm="¿Borrar Café tinto del menú?">
+                                        <input type="hidden" name="csrf" value="47da0a74fe01779d1e854ce9dbfce415ab09294e43ac1a52b95bc2d79b3cb580">                                        <input type="hidden" name="accion" value="borrar">
+                                        <input type="hidden" name="id" value="10">
+                                        <button type="submit" class="btn-mini btn-peligro">Borrar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                                            </tbody>
+                </table>
+            </div>
+            </div>
+</section>
+
+</main>
+
+<footer class="admin-footer">
+    <p>© 2026 BackFlash · Panel de administración</p>
+</footer>
+
+<script src="/BackFlash/public/js/admin.js" defer=""></script>
+
+
+</body></html>

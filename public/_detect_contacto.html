@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contacta a BackFlash: envíanos tu mensaje o haz reservaciones. Calle 28 # 6-27, Pereira, Colombia.">
+    <meta name="author" content="BackFlash">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Contacto - BackFlash">
+    <meta property="og:description" content="Contacta a BackFlash: envíanos tu mensaje o haz reservaciones. Calle 28 # 6-27, Pereira, Colombia.">
+    <meta property="og:image" content="/BackFlash/public/assets/img/hero.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="/BackFlash/public/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;family=Satisfy&amp;display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Contacto - BackFlash</title>
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+<div class="topbar">
+    <div class="menu container">
+        <a href="/BackFlash/index.php" class="logo">BackFlash</a>
+        <input type="checkbox" id="menu" aria-label="Mostrar u ocultar el menú de navegación">
+        <label for="menu">
+            <img src="/BackFlash/public/assets/img/logo.svg" class="menu-icono" alt="Menú de navegación">
+        </label>
+        <nav class="navbar" id="nav-principal" aria-label="Navegación principal">
+            <ul>
+                                    <li>
+                        <a href="/BackFlash/index.php">
+                            Inicio                        </a>
+                    </li>
+                                    <li>
+                        <a href="/BackFlash/menu.php">
+                            Menú                        </a>
+                    </li>
+                                    <li>
+                        <a href="/BackFlash/reservar.php">
+                            Reservas                        </a>
+                    </li>
+                                    <li>
+                        <a href="/BackFlash/contacto.php" aria-current="page">
+                            Contacto                        </a>
+                    </li>
+                            </ul>
+        </nav>
+        <a href="/BackFlash/reservar.php" class="nav-cta">Reservar mesa</a>
+    </div>
+</div>
+
+<header class="header">
+    <div class="hero container">
+        <div class="hero-main">
+            <div class="hero-txt">
+                <h1>Contáctanos</h1>
+                <p class="hero-sub">Te responderemos pronto</p>
+
+                <dl class="tube-bank">
+                    <div class="tube">
+                        <dt class="tube-label">Hoy</dt>
+                        <dd>Hasta 22:00</dd>
+                    </div>
+                    <div class="tube">
+                        <dt class="tube-label">Mesa</dt>
+                        <dd>1–20</dd>
+                    </div>
+                    <div class="tube">
+                        <dt class="tube-label">Desde</dt>
+                        <dd>$4.000</dd>
+                    </div>
+                </dl>
+
+                <div class="header-cta">
+                    <a href="/BackFlash/reservar.php" class="btn-1 btn-solid">Reservar mesa</a>
+                    <a href="/BackFlash/menu.php" class="btn-1">Ver el menú</a>
+                </div>
+            </div>
+
+            <figure class="hero-plate">
+                <img src="/BackFlash/public/assets/img/hero.webp" alt="Salón de BackFlash iluminado al anochecer, con las mesas servidas" width="1600" height="1067" fetchpriority="high" decoding="async">
+            </figure>
+        </div>
+
+        <p class="hero-strip">
+            <span><b>Ubicación</b>calle 28 # 6-27, Pereira, Colombia</span>
+            <span><b>Horario</b>mar–dom · 11:00–22:00</span>
+            <span><b>Teléfono</b>+57 300 123 4567</span>
+        </p>
+    </div>
+</header>
+
+<main id="contenido" tabindex="-1">
+
+    <section class="contact-form container">
+        <div class="container1">
+            <h2>Formulario de Contacto</h2>
+
+            <form action="/BackFlash/actions/contacto.php" method="post" id="contactForm" class="js-form" novalidate="">
+                <input type="hidden" name="csrf" value="93d02a221856ab9963b954ed6f8d5daa68ee63e5340e8bf557a0dd2b7cd69982">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input type="text" id="name" name="nombre" autocomplete="name" required="" minlength="3" maxlength="120" value="" aria-describedby="error-nombre">
+                                    </div>
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required="" maxlength="160" value="" aria-describedby="error-email">
+                                    </div>
+
+                <div class="form-group">
+                    <label for="asunto">Asunto</label>
+                    <input type="text" id="asunto" name="asunto" required="" minlength="3" maxlength="160" value="" aria-describedby="error-asunto">
+                                    </div>
+
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" name="mensaje" required="" minlength="10" maxlength="4000" aria-describedby="error-mensaje"></textarea>
+                                    </div>
+
+                <div class="form-group">
+                    <button type="submit">Enviar</button>
+                </div>
+            </form>
+
+            <div class="contacto-datos">
+                <h3>También puedes encontrarnos en</h3>
+                <ul>
+                    <li><strong>Dirección:</strong>
+                        <a class="contacto-mapa" href="https://www.google.com/maps/search/?api=1&amp;query=calle%2028%20%23%206-27%2C%20Pereira%2C%20Colombia%2C%20Pereira%2C%20Colombia" target="_blank" rel="noopener noreferrer">calle 28 # 6-27, Pereira, Colombia ↗</a>
+                    </li>
+                    <li><strong>Teléfono:</strong> +57 300 123 4567</li>
+                    <li><strong>Email:</strong> contacto@backflash.com</li>
+                    <li><strong>Horario:</strong> martes a domingo, 11:00 a. m. – 10:00 p. m.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section about">
+            <h2>Sobre Nosotros</h2>
+            <p>BackFlash es un restaurante de comida colombiana ubicado en Pereira. Cocinamos con ingredientes frescos y recetas tradicionales para ofrecerte siempre la mejor mesa.</p>
+        </div>
+
+        <div class="footer-section links">
+            <h2>Enlaces Útiles</h2>
+            <ul>
+                <li><a href="/BackFlash/index.php">Inicio</a></li>
+                <li><a href="/BackFlash/menu.php">Menú</a></li>
+                <li><a href="/BackFlash/reservar.php">Reservas</a></li>
+                <li><a href="/BackFlash/contacto.php">Contacto</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section contact">
+            <h2>Contacto</h2>
+            <p>Email: contacto@backflash.com</p>
+            <p>Teléfono: +57 300 123 4567</p>
+            <p>Dirección: calle 28 # 6-27, Pereira, Colombia</p>
+        </div>
+
+        <div class="footer-section social-media">
+            <h2>Redes Sociales</h2>
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">Twitter</a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 BackFlash. Todos los derechos reservados.
+            <a href="/BackFlash/admin/login.php" class="footer-admin">Administración</a>
+        </p>
+        <span class="credito">
+            Fotografías:
+            <a href="https://commons.wikimedia.org/wiki/File:Bandeja_paisa_%285082434401%29.jpg" target="_blank" rel="noopener noreferrer">bandeja paisa</a> © Jorge Lascar (CC BY 2.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Estofado_de_carne.jpg" target="_blank" rel="noopener noreferrer">estofado</a> © PapiPijuan (CC BY-SA 4.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Sancocho_cruzado_de_gallina%2C_rabo_y_costilla_con_arepa.jpg" target="_blank" rel="noopener noreferrer">sancocho de pollo</a> © Rodolfo Pimentel (CC BY-SA 4.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Sancocho_de_pescado_%28gastronom%C3%ADa_Ecuatoriana%29.jpg" target="_blank" rel="noopener noreferrer">sancocho de pescado</a> © Kevinmero (CC BY-SA 4.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Jugo_de_lulo.jpg" target="_blank" rel="noopener noreferrer">jugo de lulo</a> © Caldobasico (CC BY-SA 4.0) ·
+            <a href="https://www.flickr.com/photos/38102750@N06/8734808247" target="_blank" rel="noopener noreferrer">jugo de mora</a> © Breville USA (CC BY 2.0) ·
+            resto de imágenes: Unsplash (Unsplash License).
+        </span>
+    </div>
+</footer>
+
+<script src="/BackFlash/public/js/main.js" defer=""></script>
+
+
+</body></html>

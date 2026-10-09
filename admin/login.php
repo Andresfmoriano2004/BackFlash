@@ -43,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Acceso al panel de administración de BackFlash: gestión de mensajes, reservas y menú.">
     <link rel="icon" href="<?= e(url('public/assets/img/favicon.svg')) ?>" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Satisfy&display=swap">
     <link rel="stylesheet" href="<?= e(url('public/css/style.css')) ?>">
     <link rel="stylesheet" href="<?= e(url('public/css/admin.css')) ?>">
     <title>Acceso · BackFlash</title>

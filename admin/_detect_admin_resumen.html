@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Panel de administración de BackFlash: mensajes, reservas y menú.">
+    <link rel="icon" href="/BackFlash/public/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;family=Satisfy&amp;display=swap">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <title>Resumen · BackFlash</title>
+</head>
+<body class="admin">
+
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<header class="admin-top">
+    <a class="admin-logo" href="/BackFlash/admin/index.php">
+        <img src="/BackFlash/public/assets/img/favicon.svg" alt="" width="28" height="28">
+        BackFlash <span>Admin</span>
+    </a>
+
+    <nav class="admin-nav" aria-label="Menú de administración">
+                    <a href="/BackFlash/admin/index.php" aria-current="page">
+                Resumen            </a>
+                    <a href="/BackFlash/admin/mensajes.php">
+                Mensajes            </a>
+                    <a href="/BackFlash/admin/reservas.php">
+                Reservas            </a>
+                    <a href="/BackFlash/admin/platos.php">
+                Menú            </a>
+                <a href="/BackFlash/index.php" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <a href="/BackFlash/admin/logout.php" class="admin-salir">Salir</a>
+    </nav>
+</header>
+
+<main id="contenido" class="admin-main" tabindex="-1">
+
+<section class="admin-cards">
+    <a class="card" href="/BackFlash/admin/mensajes.php">
+        <span class="card-num">1</span>
+        <span class="card-txt">Mensajes
+                            <em class="badge badge-gold">1 sin leer</em>
+                    </span>
+    </a>
+
+    <a class="card" href="/BackFlash/admin/reservas.php">
+        <span class="card-num">2</span>
+        <span class="card-txt">Reservas pendientes
+            <em class="badge">1 hoy</em>
+        </span>
+    </a>
+
+    <a class="card" href="/BackFlash/admin/reservas.php">
+        <span class="card-num">2</span>
+        <span class="card-txt">Reservas totales</span>
+    </a>
+
+    <a class="card" href="/BackFlash/admin/platos.php">
+        <span class="card-num">10</span>
+        <span class="card-txt">Platos publicados</span>
+    </a>
+</section>
+
+<div class="admin-grid">
+    <section class="panel">
+        <h2>Últimos mensajes</h2>
+                    <ul class="lista">
+                                    <li class="sin-leer">
+                        <strong>Ana Pérez</strong>
+                        <span class="lista-meta">Reserva para el sábado · 08/10 01:37</span>
+                        <p>Hola, quisiera reservar una mesa para 4 personas el sábado en la noche.</p>
+                    </li>
+                            </ul>
+            <a class="btn-secundario" href="/BackFlash/admin/mensajes.php">Ver todos los mensajes</a>
+            </section>
+
+    <section class="panel">
+        <h2>Próximas reservas</h2>
+                    <ul class="lista">
+                                    <li>
+                        <strong>Anderson feliz</strong>
+                        <span class="lista-meta">
+                            09/10/2026 ·
+                            19:00 ·
+                            5 personas
+                        </span>
+                        <span class="badge badge-pendiente">Pendiente</span>
+                    </li>
+                                    <li>
+                        <strong>Carlos Gómez</strong>
+                        <span class="lista-meta">
+                            10/10/2026 ·
+                            19:30 ·
+                            4 personas
+                        </span>
+                        <span class="badge badge-pendiente">Pendiente</span>
+                    </li>
+                            </ul>
+            <a class="btn-secundario" href="/BackFlash/admin/reservas.php">Gestionar reservas</a>
+            </section>
+</div>
+
+</main>
+
+<footer class="admin-footer">
+    <p>© 2026 BackFlash · Panel de administración</p>
+</footer>
+
+<script src="/BackFlash/public/js/admin.js" defer=""></script>
+
+
+</body></html>

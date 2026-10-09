@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Acceso al panel de administración de BackFlash: gestión de mensajes, reservas y menú.">
+    <link rel="icon" href="/BackFlash/public/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;family=Satisfy&amp;display=swap">
+    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/admin.css">
+    <title>Acceso · BackFlash</title>
+</head>
+<body class="admin admin-login-body">
+
+<div class="admin-login">
+    <img class="admin-login-logo" src="/BackFlash/public/assets/img/favicon.svg" alt="" width="56" height="56">
+    <h1>BackFlash <span>Admin</span></h1>
+    <p class="admin-login-sub">Gestión de mensajes, reservas y menú</p>
+
+    
+    
+    <form method="post" action="/BackFlash/admin/login.php">
+        <input type="hidden" name="csrf" value="93d02a221856ab9963b954ed6f8d5daa68ee63e5340e8bf557a0dd2b7cd69982">
+        <div class="form-group">
+            <label for="usuario">Usuario</label>
+            <input type="text" id="usuario" name="usuario" autocomplete="username" required="" value="" autofocus="">
+        </div>
+
+        <div class="form-group">
+            <label for="clave">Contraseña</label>
+            <input type="password" id="clave" name="clave" autocomplete="current-password" required="">
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Entrar</button>
+        </div>
+    </form>
+
+    <p class="admin-login-volver"><a href="/BackFlash/index.php">← Volver al sitio</a></p>
+</div>
+
+
+
+</body></html>

@@ -1,76 +1,164 @@
-/* Una sola petición de fuentes (antes: 3 @import con Poppins duplicado) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Satisfy&display=swap');
+/* ============================================================
+   BackFlash · «Contador de tubos de nixie»
+   ------------------------------------------------------------
+   Sistema de diseño en CSS vanilla, organizado en capas:
+     0 · Fuentes        1 · Tokens        2 · Base
+     3 · Componentes    4 · Páginas       5 · Movimiento
+     6 · Responsive (móvil primero · 640 / 1024 / 1280)
+   El admin (admin.css) hereda los tokens de este archivo.
 
-/* =========================================================
-   DESIGN TOKENS — única fuente de verdad del diseño.
-   Todo color, tamaño, espacio, radio y movimiento sale de aquí.
-   ========================================================= */
-:root{
-    /* --- Neutros tintados (nada de #000 / #fff puros) --- */
-    --ink:        #23211d;  /* títulos */
-    --ink-soft:   #45413a;  /* texto corrido */
-    --muted:      #6b6560;  /* texto secundario */
-    --line:       #e4e0d5;  /* separadores */
-    --line-input: #8f8b80;  /* borde de controles: 3,1:1 sobre blanco (AA no-texto) */
-    --surface:    #ffffff;
-    --bg:         #F5F4F0;
-    --bg-deep:    #23211d;  /* pie de página */
+   Dirección: chasis de acero pavonado, una sola tinta, y el oro
+   de marca como única luz cálida — encendido en las cifras de la
+   casa, en el filete activo y en el CTA. Las fotos son el único
+   lugar donde entra color. Todos los números son de ancho fijo
+   (cifras tabulares de ancho fijo) para que ninguna cifra salte
+   al cambiar.
+   ============================================================ */
 
-    /* --- Marca --- */
+/* 0 · Fuentes --------------------------------------------------
+   La petición se hace en el <head> de cada página (preconnect +
+   <link>), no con un @import aquí: un @import dentro de la hoja
+   obliga a descargar style.css entero antes de empezar a traer las
+   tipografías, y eso retrasa el primer pintado.
+   ---------------------------------------------------------------- */
+
+/* 1 · Tokens — única fuente de verdad del diseño -------------- */
+:root {
+    color-scheme: dark;
+    accent-color: var(--gold);
+
+    /* --- Chasis: capas de acero pavonado --- */
+    --bg:         #0B0C0E;  /* chasis */
+    --bg-deep:    #141410;  /* pie y barra superior */
+    --surface:    #141410;  /* placas y paneles */
+    --surface-2:  #1F1B16;  /* superficie elevada: campos, chips */
+    --line:       #2C2C2C;  /* filete de malla (decorativo) */
+    --line-strong:#767064;
+    --line-input: #6E6A62;  /* borde de controles: 3,4:1 sobre --surface (AA no-texto) */
+
+    /* --- Tinta única --- */
+    --ink:       #F2EEE6;   /* títulos y texto principal */
+    --ink-soft:  #CFC9BD;   /* texto corrido */
+    --muted:     #A49C8E;   /* texto secundario (7,4:1 sobre el chasis) */
+
+    /* --- Marca: la única luz cálida --- */
     --gold:        #C9A538;
-    --gold-hover:  #ffbd4c;
-    --gold-press:  #e9a93c;
-    --gold-text:   #8a6a10; /* dorado legible sobre claro (AA) */
-    --gold-text-strong: #a9820f;
-    --orange:      #ffbd4c;
+    --gold-bright: #E7C55D;  /* cifra encendida */
+    --gold-hover:  #E7C55D;
+    --gold-press:  #B8942F;
+    --gold-text:   #E7C55D;  /* cifra/enlace dorado sobre oscuro (AA) */
+    --gold-dim:    rgba(201, 165, 56, .38);  /* filete dorado */
+    --gold-veil:   rgba(201, 165, 56, .10);  /* fondo dorado tenue */
+    --on-gold:     #0B0C0E;  /* texto sobre placa dorada (8,4:1) */
 
-    /* --- Semánticos (estado SIEMPRE acompañado de texto/icono) --- */
-    --success: #146227;  --success-bg: #e8f7ec;  --success-line: #45a049;
-    --danger:  #b3261e;  --danger-bg:  #fdeceb;  --danger-line: #d64545;
+    /* --- Estado: siempre acompañado de texto e ícono --- */
+    --success: #E7C55D;  --success-bg: #141410;  --success-line: var(--gold);
+    --aviso:   #C9A538;  --aviso-bg: rgba(201, 165, 56, .14);  --aviso-line: var(--gold);
+    --danger:  #F2EEE6;  --danger-bg:  #1F1B16;  --danger-line:  #807A6E;
 
-    /* --- Tipografía: 2 familias (Poppins + Satisfy) --- */
-    --font-sans:   'poppins', system-ui, -apple-system, sans-serif;
-    --font-script: 'satisfy', cursive;
-    --fs-2xs: .75rem;   /* 12 – etiquetas */
+    /* --- Tipografía: dos familias descargadas — Poppins (prosa y
+           versalitas grabadas) y Satisfy (logotipo y un único
+           detalle). Las cifras usan la monoespaciada del sistema:
+           ancho fijo sin cargar una tercera webfont. --- */
+    --font-sans:   'Poppins', system-ui, -apple-system, sans-serif;
+    --font-num:    ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', 'Roboto Mono',
+                   Consolas, 'DejaVu Sans Mono', 'Courier New', monospace;
+    --font-script: 'Satisfy', cursive;
+
+    --fs-2xs: .75rem;   /* 12 – versalitas grabadas */
     --fs-xs:  .875rem;  /* 14 – apoyo */
     --fs-sm:  .95rem;   /* 15 – auxiliar */
     --fs-md:  1rem;     /* 16 – base */
-    --fs-lg:  1.125rem; /* 18 – navegación */
-    --fs-xl:  1.25rem;  /* 20 – destacado */
-    --fs-2xl: 1.5rem;   /* 24 – subtítulos */
-    --fs-3xl: 2rem;     /* 32 – títulos de sección UI */
-    --fs-section: clamp(1.75rem, 1.1rem + 2.4vw, 2.75rem); /* titulares editoriales */
-    --fs-hero:    clamp(2.25rem, 1.25rem + 4vw, 4.75rem);   /* titular del hero */
-    --lh-tight: 1.15;   /* títulos */
-    --lh-body:  1.6;    /* párrafos */
-    --track-caps: .08em;
+    --fs-lg:  1.125rem; /* 18 */
+    --fs-xl:  1.25rem;  /* 20 – nombre de plato */
+    --fs-2xl: 1.5rem;   /* 24 */
+    --fs-3xl: 2rem;     /* 32 */
+    --fs-section: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+    --fs-hero:    clamp(2rem, 1.35rem + 2.8vw, 3.5rem);
+    --lh-tight: 1.12;
+    --lh-body:  1.65;
+    --track-caps: .14em;  /* versalitas grabadas */
 
     /* --- Espaciado: escala 4/8 --- */
     --s-1: 4px;   --s-2: 8px;   --s-3: 12px;  --s-4: 16px;
     --s-5: 20px;  --s-6: 24px;  --s-8: 32px;  --s-10: 40px;
     --s-12: 48px; --s-16: 64px; --s-24: 96px;
 
-    /* --- Radios: 3 valores + píldora para chips y filtros --- */
-    --r-sm: 6px;   /* campos y botones pequeños */
-    --r-md: 10px;  /* botones, tarjetas y paneles */
-    --r-lg: 16px;  /* bloques grandes (hero, imágenes) */
+    /* --- Radios: 8px para superficies, píldora para chips --- */
+    --r-sm: 8px;
+    --r-md: 8px;
+    --r-lg: 8px;
     --r-pill: 999px;
 
-    /* --- Elevación: un nivel normal y uno para destacados --- */
-    --shadow-1: 0 1px 2px rgba(35,33,29,.06), 0 10px 24px rgba(35,33,29,.08);
-    --shadow-2: 0 2px 6px rgba(35,33,29,.10), 0 18px 40px rgba(35,33,29,.14);
+    /* --- Elevación: sombra escasa; el brillo hace de relieve --- */
+    --shadow-1: 0 12px 30px rgba(0, 0, 0, .38);
+    --shadow-2: 0 24px 60px rgba(0, 0, 0, .45);
+    --glow:     0 0 14px rgba(201, 165, 56, .45);  /* resplandor de la cifra */
 
-    /* --- Movimiento: 150-250 ms, ease-out --- */
+    /* --- Movimiento: 150–250 ms, ease-out --- */
     --dur: 180ms;
     --ease: cubic-bezier(.2, .6, .2, 1);
 
     /* --- Contenedor --- */
     --container: 1200px;
     --gutter: clamp(var(--s-4), 4vw, var(--s-6));
+    --topbar-h: 64px;
+
+    /* --- Vidrio de los tubos --- */
+    --tube-glass: linear-gradient(180deg, rgba(242, 238, 230, .055), rgba(242, 238, 230, .012));
 }
 
-/* Utilidad: contenido solo para lectores de pantalla */
-.sr-only{
+/* 2 · Base ---------------------------------------------------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--topbar-h) + 64px); }
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-md);
+    line-height: var(--lh-body);
+    color: var(--ink-soft);
+    background-color: var(--bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--gold); color: var(--on-gold); }
+
+/* Superficies del navegador que no dibujamos */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: var(--r-pill); border: 3px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+@supports (scrollbar-color: auto) {
+    * { scrollbar-color: var(--line-strong) var(--bg); scrollbar-width: thin; }
+}
+
+input, textarea, select { caret-color: var(--gold); }
+
+a { color: var(--gold-text); text-underline-offset: 3px; transition: color var(--dur) var(--ease); }
+a:hover { color: var(--gold-bright); }
+
+img { max-width: 100%; height: auto; }
+
+strong { color: var(--ink); font-weight: 600; }
+
+h1, h2, h3, h4 { color: var(--ink); line-height: var(--lh-tight); text-wrap: balance; }
+
+/* Contenedor: ancho máximo + margen lateral mínimo de 16px */
+.container {
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+}
+
+/* Contenido solo para lectores de pantalla */
+.sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -82,963 +170,38 @@
     border: 0;
 }
 
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
-}
-
-body{
-    font-family: var(--font-sans);
-    font-size: var(--fs-md);
-    line-height: var(--lh-body);
-    color: var(--ink-soft);
-    background-color: var(--bg);
-    -webkit-font-smoothing: antialiased;
-}
-
-::selection{
+/* Enlace de salto al contenido: oculto hasta que la tecla Tab lo
+   alcanza, para no obligar a recorrer el menú en cada página. */
+.skip-link {
+    position: fixed;
+    top: var(--s-3);
+    left: var(--s-3);
+    z-index: 100;
+    padding: var(--s-3) var(--s-5);
     background: var(--gold);
-    color: var(--ink);
-}
-
-/* Browser surfaces — theming the parts we did not draw */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--gold); border-radius: var(--r-pill); border: 2px solid var(--bg); }
-::-webkit-scrollbar-thumb:hover { background: var(--gold-hover); }
-@supports (scrollbar-color: auto) {
-    * { scrollbar-color: var(--gold) var(--bg); scrollbar-width: thin; }
-}
-
-input, textarea { caret-color: var(--gold); }
-
-a { text-underline-offset: 3px; }
-
-
-img{
-    max-width: 100%;
-    height: auto;
-}
-
-/* Contenedor: ancho máximo + margen lateral mínimo 16px en móvil */
-.container{
-    max-width: var(--container);
-    margin-inline: auto;
-    padding-inline: var(--gutter);
-}
-
-.header{
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,0.28) 0%,
-            rgba(0,0,0,0.55) 60%,
-            rgba(0,0,0,0.75) 100%
-        ),
-        url(../assets/images/bg.svg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    min-height: clamp(540px, 90vh, 860px);
-    padding: var(--s-24) var(--gutter) clamp(var(--s-16), 8vh, var(--s-24));
-    position: relative;
-}
-
-.header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-        ellipse 70% 50% at 50% 40%,
-        rgba(201,165,56,.08) 0%,
-        transparent 70%
-    );
-    pointer-events: none;
-}
-
-.menu{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    
-}
-
-
-.logo{
-    color: #ffffff;
-    text-transform: uppercase;
-    font-size: var(--fs-3xl);
-    font-weight: 800;
-    letter-spacing: var(--track-caps);
-}
-
-.menu .navbar ul{
-    display: flex;
-    align-items: center;
-}
-
-.menu .navbar ul li{
-    position: relative;
-}
-
-
-.menu .navbar ul li a{
-    font-size: var(--fs-lg);
-    padding: var(--s-5);
-    color: #ffffff;
-    display: block;
-    font-weight: 600;
-    letter-spacing: .02em;
-    transition: color var(--dur) var(--ease);
-}
-
-.menu .navbar ul li a:hover{
-    color: var(--gold-hover);
-}
-
-.menu .navbar ul li a[aria-current="page"]{
-    color: var(--gold-hover);
-    text-decoration: underline;
-    text-underline-offset: 6px;
-    text-decoration-thickness: 2px;
-}
-
-
-/* El checkbox sigue en el árbol de accesibilidad (recibible por teclado)
-   pero sin ocupar espacio visual */
-#menu{
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    opacity: 0;
-    pointer-events: none;
-}
-
-
-.menu-icono{
-    width: 25px;
-}
-
-.menu label{
-    cursor: pointer;
-    display: none;
-}
-
-#menu:focus-visible + label{
-    outline: 3px solid var(--gold);
-    outline-offset: 4px;
-    border-radius: var(--r-sm);
-}
-
-
-.header-container{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* push content to the visual floor where the gradient pools */
-    z-index: 1;
-}
-
-.header-txt{
-    text-align: center;
-    max-width: 860px;
-    padding-inline: var(--gutter);
-}
-
-.header-txt h1{
-    font-size: var(--fs-hero);
-    font-family: var(--font-script);
-    font-weight: 400;
-    color: #ffffff;
-    line-height: var(--lh-tight);
-    margin-bottom: var(--s-4);
-    text-wrap: balance;
-    text-shadow:
-        0 2px 4px rgba(0,0,0,.5),
-        0 8px 32px rgba(0,0,0,.35);
-}
-
-/* Brand accent line — system motif brought into the first viewport */
-.header-txt h1::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 3px;
-    background: var(--gold);
-    border-radius: var(--r-pill);
-    margin: var(--s-4) auto 0;
-    opacity: .9;
-}
-
-.header-txt p{
-    font-size: clamp(.875rem, .6rem + 1.1vw, 1.25rem);
-    color: var(--gold);
-    text-transform: uppercase;
-    font-weight: 700;
-    line-height: var(--lh-tight);
-    letter-spacing: .15em;
-    text-wrap: balance;
-    text-shadow: 0 1px 6px rgba(0,0,0,.45);
-    margin-bottom: 0;
-}
-
-/* Acción principal de la portada: visible sin hacer scroll */
-.header-cta{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: var(--s-4);
-    margin-top: var(--s-10);
-}
-
-/* Primary CTA gets full presence; secondary stays contained */
-.header-cta .btn-1.btn-solid {
-    min-height: 54px;
-    padding: var(--s-4) var(--s-10);
-    font-size: var(--fs-lg);
-    margin-top: 0;
-}
-
-.header-cta .btn-1:not(.btn-solid) {
-    min-height: 48px;
-    margin-top: 0;
-    color: rgba(255,255,255,.9);
-    border-color: rgba(255,255,255,.55);
-}
-
-.header-cta .btn-1:not(.btn-solid):hover {
-    background-color: rgba(255,255,255,.12);
-    border-color: rgba(255,255,255,.8);
-    color: #ffffff;
-}
-
-.information-content{
-    display: flex;
-    justify-content: space-between;
-    box-shadow: var(--shadow-1);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    margin-top: calc(var(--s-12) * -1);
-}
-
-.information-1{
-    flex-basis: 30%;
-}
-
-.information-1,
-.information-2{
-    display: flex;
-    flex-direction: column;
-}
-
-.information-c1{
-    flex: 1; /* iguala la altura de las dos cajas blancas */
-    padding: var(--s-8);
-    text-align: center;
-    background-color: var(--surface);
-    min-height: 300px;
-}
-
-/* Longitud de línea legible (45-75 caracteres) */
-.information-c1 p,
-.oferta-txt p{
-    line-height: var(--lh-body);
-    max-width: 62ch;
-    margin-inline: auto;
-}
-
-h3{
-    font-size: var(--fs-2xl);
-    font-family: var(--font-script);
-    font-weight: 400;
-    line-height: var(--lh-tight);
-    margin-bottom: var(--s-3);
-    color: var(--ink);
-}
-
-.information-2{
-    flex-basis: 70%;
-}
-
-.information-b1{
-    height: 300px;
-}
-
-.information-a1{
-    height: 300px;
-}
-
-.information-b1 img{
-    height: 300px;
-    width: 100%;
-    object-fit: cover;
-}
-
-.information-a1 img{
-    height: 300px;
-    width: 100%;
-    object-fit: cover;
-}
-
-
-/* ============ Sistema de botones (jerarquía única) ============
-   .btn-1.btn-solid → primario   (acción dominante de la pantalla)
-   .btn-1           → secundario (contorno dorado)
-   .btn-2           → terciario  (enlace de texto con flecha)        */
-.btn-1{
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 46px;
-    padding: var(--s-3) var(--s-8);
-    border: 2px solid var(--gold);
-    border-radius: var(--r-md);
-    margin-top: var(--s-2);
-    background: transparent;
-    color: var(--gold-text);
-    font: inherit;
-    font-weight: 600;
-    font-size: var(--fs-md);
-    text-transform: uppercase;
-    letter-spacing: var(--track-caps);
-    cursor: pointer;
-    white-space: nowrap; /* el botón nunca se parte en dos líneas */
-    transition: color var(--dur) var(--ease),
-                background-color var(--dur) var(--ease),
-                border-color var(--dur) var(--ease),
-                transform var(--dur) var(--ease),
-                box-shadow var(--dur) var(--ease);
-}
-
-.btn-1:hover{
-    background-color: var(--gold);
-    border-color: var(--gold);
-    color: var(--ink);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-1);
-}
-
-.btn-1:active{
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-.btn-1:disabled,
-.btn-1[aria-disabled="true"]{
-    opacity: .6;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-/* Primario: un solo botón sólido por pantalla */
-.btn-solid{
-    background: var(--gold);
-    color: var(--ink);
-}
-
-.btn-solid:hover{
-    background: var(--gold-hover);
-    border-color: var(--gold-hover);
-    color: var(--ink);
-}
-
-.btn-solid:active{
-    background: var(--gold-press);
-    border-color: var(--gold-press);
-}
-
-
-.our{
-    margin-top: calc(var(--s-12) * -1);
-    padding: clamp(var(--s-24), 16vw, 210px) 0;
-    background: linear-gradient(
-        rgba(0,0,0,0.45),
-        rgba(0,0,0,0.45)
-    ),
-
-    url(../assets/images/bg-2.svg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    text-align: center;
-}
-
-.our h2{
-    font-family: var(--font-script);
-    font-weight: 400;
-    font-size: var(--fs-section);
-    line-height: var(--lh-tight);
-    color: #ffffff;
-}
-
-
-.oferta-content{
-    display: flex;
-    box-shadow: var(--shadow-1);
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    margin-top: calc(var(--s-12) * -1);
-}
-
-.oferta-1{
-    flex-basis: 25%;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-
-.oferta-txt{
-    flex: 1; /* iguala la altura del texto en las 4 tarjetas */
-    padding: var(--s-6);
-    text-align: center;
-    background-color: var(--surface);
-}
-
-
-.oferta-img{
-    height: 230px;
-}
-
-
-.oferta-img img{
-    display: block;
-    width: 100%;
-    height: 230px;
-    object-fit: cover;
-}
-
-
-/* Terciario: enlace de texto, siempre con flecha que se desplaza al hover */
-.btn-2{
-    display: inline-flex;
-    align-items: center;
-    gap: var(--s-2);
-    min-height: 44px;
-    margin-top: var(--s-1);
-    color: var(--gold-text);
-    font-weight: 600;
+    color: var(--on-gold);
     font-size: var(--fs-sm);
-    text-transform: uppercase;
-    letter-spacing: var(--track-caps);
-    text-underline-offset: 4px;
-    transition: color var(--dur) var(--ease);
-}
-
-.btn-2::after{
-    content: "→";
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--r);
+    box-shadow: var(--shadow-2);
+    transform: translateY(calc(-100% - var(--s-5)));
     transition: transform var(--dur) var(--ease);
 }
 
-.btn-2:hover{
-    color: var(--ink);
-    text-decoration: underline;
-}
-
-.btn-2:hover::after{
-    transform: translateX(4px);
-}
-
-
-.food{
-    padding: var(--s-24) 0;
-    text-align: center;
-}
-
-
-.food h2{
-    font-size: var(--fs-section);
-    font-family: var(--font-script);
-    font-weight: 400;
-    line-height: var(--lh-tight);
-    margin-bottom: var(--s-3);
-    color: var(--ink);
-}
-
-.food span{
-    font-size: var(--fs-xl);
-    font-family: var(--font-script);
-    display: block;
-    margin-bottom: var(--s-10);
-    color: var(--ink-soft);
-}
-
-.food-content{
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    text-align: left;
-}
-
-.food-1{
-    margin-right: var(--s-24);
-}
-
-.food-1 h3{
-    font-family: var(--font-sans);
-    font-size: var(--fs-sm);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--track-caps);
-    margin-bottom: var(--s-3);
-    color: var(--ink);
-}
-
-.food-txt{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--s-3) var(--s-4);
-    margin-bottom: var(--s-8);
-}
-
-
-.food-txt img{
-    display: block;
-    width: 150px;
-    height: 112px;
-    object-fit: cover;
-    border-radius: var(--r-md);
-    background-color: #f2f0e9;
-}
-
-
-.food-txt p{
-    font-size: var(--fs-md);
-    color: var(--ink-soft);
-}
-
-
-.food-txt .food-desc{
-    flex-basis: 100%;
-    margin-top: 2px;
-    text-align: left;
-    color: var(--muted);
-}
-
-
-/* Cifras alineadas en columna (precios y tablas) */
-.precio{
-    font-size: var(--fs-2xl) !important;
-    color: var(--gold-text-strong) !important;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    margin-left: 0;
-}
-
-
-@media (max-width: 991px){
-    .menu{
-        padding: 20px;
-    }
-
-    .menu label{
-        display: initial;
-    }
-
-    .menu .navbar{
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: var(--orange);
-        display: none;
-    }
-
-    .menu .navbar ul {
-        display: block;
-    }
-
-    .menu .navbar ul li a{
-        color: var(--ink);
-    }
-
-    .menu .navbar ul li a:hover,
-    .menu .navbar ul li a[aria-current="page"]{
-        color: var(--gold-text);
-    }
-
-    .menu .navbar ul li {
-        width: 100%;
-    }
-
-    #menu:checked ~ .navbar{
-        display: block;
-    }
-
-    .header{
-        min-height: 70vh;
-        padding-top: 100px;
-        padding-bottom: clamp(var(--s-12), 6vh, var(--s-24));
-        justify-content: flex-end;
-    }
-
-    .information-content{
-        display: flex;
-        flex-direction: column;
-        margin-top: 0;
-    }
-
-    .our{
-        margin-top: 0;
-        padding: 150px 30px;
-    }
-
-    .information-2{
-        padding-bottom: 35px;
-        background-color: var(--surface);
-    }
-
-    .oferta-content{
-        margin-top: 0;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .oferta-1{
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        width: 100%;
-        background-color: var(--surface);
-    }
-
-    .oferta-img{
-        order: 2;
-        width: 100%;
-        margin-bottom: 25px;
-    }
-
-    .food{
-        padding: var(--s-8) var(--gutter);
-    }
-
-    .food-content{
-        padding: 0;
-        flex-direction: column;
-    }
-
-    .food-1{
-        margin: 0;
-    }
-
-    .footer{
-        padding: var(--s-8) 0;
-    }
-
-    .footer-content{
-        flex-direction: column;
-        text-align: center;
-    }
-
-
-}
-
-/* footer de la pagina */
-
-footer {
-    background-color: var(--bg-deep); /* Color de fondo del pie de página */
-    color: var(--surface); /* Color del texto */
-    text-align: center; /* Centra el texto */
-    padding: var(--s-6) 0; /* Espaciado interno */
-    position: relative; /* Para el posicionamiento */
-    bottom: 0; /* Asegura que esté al final */
-    width: 100%; /* Ocupa todo el ancho */
-    line-height: var(--lh-body);
-}
-
-.footer-content {
-    display: flex; /* Utiliza flexbox para organizar las secciones */
-    justify-content: space-around; /* Espacio entre secciones */
-    flex-wrap: wrap; /* Permite que las secciones se envuelvan en pantallas pequeñas */
-    max-width: var(--container); /* Ancho máximo del contenido */
-    margin: 0 auto; /* Centra el contenido */
-    padding: var(--s-6) var(--gutter);
-}
-
-.footer-section {
-    flex: 1; /* Cada sección ocupa el mismo espacio */
-    min-width: 200px; /* Ancho mínimo para cada sección */
-    margin: var(--s-2); /* Espaciado entre secciones */
-}
-
-.footer-section h2 {
-    margin-bottom: var(--s-2); /* Espacio debajo del título */
-    font-size: var(--fs-xl);
-    font-weight: 700;
-    line-height: var(--lh-tight);
-}
-
-.footer-section p, .footer-section ul {
-    margin: 0;
-    max-width: 60ch;
-}
-
-/* Footer divider */
-footer {
-    border-top: 1px solid rgba(201,165,56,.25);
-}
-
-/* Enlaces del pie: antes heredaban el azul por defecto del navegador
-   sobre fondo oscuro (contraste insuficiente) */
-.footer-section a {
-    color: var(--surface);
-    display: inline-flex;
-    align-items: center;
-    min-height: 32px;
-    transition: color var(--dur) var(--ease);
-}
-
-.footer-section a:hover,
-.footer-section a:focus-visible {
-    color: var(--orange);
-}
-
-/* diseño de contacto */
-/* Estilos básicos para el formulario */
-.contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.container1 {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.contact-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.contact-form label {
-    margin-bottom: 5px;
-    font-size: 1rem;
-}
-
-/* Campos: etiqueta encima, error debajo, foco con anillo visible */
-.contact-form input,
-.contact-form textarea,
-.contact-form select {
-    padding: var(--s-3) var(--s-4);
-    min-height: 46px;
-    font-size: var(--fs-md);
-    font-family: inherit;
-    color: var(--ink);
-    background-color: var(--surface);
-    border: 1px solid var(--line-input);
-    border-radius: var(--r-sm);
-    width: 100%;
-    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-}
-
-.contact-form select {
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238a6a10' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right var(--s-4) center;
-    padding-right: var(--s-10);
-    cursor: pointer;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus,
-.contact-form select:focus {
-    border-color: var(--gold-text);
-    outline: 2px solid var(--gold);
-    outline-offset: 2px;
-}
-
-.contact-form input[aria-invalid="true"],
-.contact-form textarea[aria-invalid="true"],
-.contact-form select[aria-invalid="true"] {
-    border-color: var(--danger);
-    background-color: var(--danger-bg);
-}
-
-.contact-form textarea {
-    resize: vertical;
-    min-height: 150px;
-}
-
-/* Botón primario de las páginas de envío (única acción de la pantalla) */
-.contact-form button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--s-2);
-    min-height: 48px;
-    padding: var(--s-3) var(--s-8);
-    font-size: var(--fs-md);
-    font-family: inherit;
-    font-weight: 600;
-    letter-spacing: var(--track-caps);
-    text-transform: uppercase;
-    background-color: var(--gold);
-    color: var(--ink);
-    border: 2px solid var(--gold);
-    border-radius: var(--r-md);
-    cursor: pointer;
-    position: relative;
-    transition: background-color var(--dur) var(--ease),
-                transform var(--dur) var(--ease),
-                box-shadow var(--dur) var(--ease);
-}
-
-.contact-form button:hover {
-    background-color: var(--gold-hover);
-    border-color: var(--gold-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-1);
-}
-
-.contact-form button:active {
-    background-color: var(--gold-press);
-    border-color: var(--gold-press);
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-.contact-form button:disabled {
-    opacity: .7;
-    cursor: progress;
-    transform: none;
-    box-shadow: none;
-}
-
-/* Estado de carga: spinner dentro del botón (JS marca data-cargando) */
-.contact-form button[data-cargando] {
-    color: transparent;
-}
-
-.contact-form button[data-cargando]::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(35, 33, 29, .25);
-    border-top-color: var(--ink);
-    border-radius: 50%;
-    animation: girar .7s linear infinite;
-}
-
-@keyframes girar {
-    to { transform: rotate(360deg); }
-}
-
-/* Media Queries para hacer el formulario responsive */
-
-/* Pantallas pequeñas */
-@media (max-width: 768px) {
-    .contact-form {
-        padding: 10px;
-        max-width: 100%;
-    }
-
-    .contact-form h2 {
-        font-size: 1.5rem;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group button {
-        font-size: 0.9rem;
-    }
-
-    .contact-form button {
-        width: 100%;
-        padding: 12px;
-    }
-}
-
-/* Pantallas muy pequeñas (menos de 480px de ancho) */
-@media (max-width: 480px) {
-    .contact-form {
-        padding: 5px;
-    }
-
-    .contact-form h2 {
-        font-size: 1.2rem;
-    }
-
-    .form-group input,
-    .form-group textarea {
-        font-size: 0.85rem;
-    }
-
-    .contact-form button {
-        font-size: 1rem;
-        padding: 14px;
-    }
-}
-
-/* =========================================================
-   Scroll-driven entrance — one authored moment, not scattered effects
-   ========================================================= */
-@media (prefers-reduced-motion: no-preference) {
-    .information-content,
-    .oferta-content,
-    .food-content,
-    .food-cta,
-    .contact-form,
-    .contacto-datos,
-    .reservas-proximas {
-        opacity: 0;
-        translate: 0 24px;
-        animation: reveal-up .55s cubic-bezier(.2,.6,.2,1) forwards;
-        animation-timeline: view();
-        animation-range: entry 0% entry 30%;
-    }
-}
-
-@keyframes reveal-up {
-    to { opacity: 1; translate: 0 0; }
-}
-
-/* =========================================================
-   Accesibilidad, transiciones y ajustes responsive
-   ========================================================= */
-
-/* Estado de foco visible para navegación por teclado */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-    outline: 3px solid var(--gold);
-    outline-offset: 3px;
-}
-
-/* Transición suave en todos los enlaces (solo color: 150-250 ms ease-out) */
-a {
-    transition: color var(--dur) var(--ease);
-}
-
-/* Estado de foco visible único para navegación por teclado (incluye select) */
+.skip-link:focus-visible,
+.skip-link:focus { transform: translateY(0); }
+
+/* La placa de salto es dorada: sin esta regla, el hover genérico de los
+   enlaces la dejaría en oro sobre oro (1,4:1). Siempre tinta oscura. */
+.skip-link:hover,
+.skip-link:focus { color: var(--on-gold); }
+
+/* <main> lleva tabindex="-1" para que el enlace de salto mueva el
+   foco allí; no debe dibujar un anillo alrededor de toda la página */
+main:focus { outline: none; }
+
+/* Foco visible único para teclado */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -1046,101 +209,184 @@ textarea:focus-visible,
 select:focus-visible,
 label[for]:focus-visible,
 summary:focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--gold-bright);
     outline-offset: 3px;
     border-radius: var(--r-sm);
 }
 
-/* Respeta a quien prefiera menos movimiento:
-   el spinner se sustituye por el texto "Enviando…" */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-    }
+/* Espina dorada continua: el filete que recorre toda la página
+   por el borde izquierdo del contenido (desktop/tablet) */
+main { position: relative; }
 
-    .contact-form button[data-cargando] {
-        color: var(--ink);
-    }
-
-    .contact-form button[data-cargando]::after {
-        display: none;
-    }
+main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: max(6px, calc((100% - var(--container)) / 2 + var(--gutter) - 14px));
+    width: 1px;
+    background: linear-gradient(180deg,
+        transparent 0,
+        var(--gold-dim) 80px,
+        var(--gold-dim) calc(100% - 80px),
+        transparent 100%);
+    pointer-events: none;
 }
 
-/* El hero usa clamp(); solo se ajustan los bloques que no dependen de vw */
-@media (max-width: 768px) {
-    .information-c1 {
-        padding: var(--s-8) var(--s-5);
-    }
+/* 3 · Componentes -------------------------------------------- */
 
-    .oferta-txt {
-        padding: var(--s-5);
-    }
-
-    .food-content {
-        padding: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .our {
-        padding: var(--s-24) 0;
-    }
-
-    .information-c1 {
-        padding: var(--s-6) var(--s-4);
-    }
-
-    .food {
-        padding: var(--s-10) 0;
-    }
-
-    .food-1 {
-        margin-right: 0;
-    }
-}
-
-/* =========================================================
-   Contenido dinámico: alertas, formularios y menú desde BD
-   ========================================================= */
-
-/* ---- Mensajes flash del servidor (estado con texto + icono, nunca solo color) ---- */
-.alert {
-    padding: var(--s-3) 0;
+/* ---- Botones: primario (placa dorada) · secundario (contorno)
+        · terciario (enlace con flecha) ---- */
+.btn-1 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: var(--s-3) var(--s-6);
+    border: 1px solid var(--gold);
+    border-radius: var(--r-md);
+    background: transparent;
+    color: var(--gold-text);
+    font: inherit;
     font-weight: 600;
-    border-bottom: 4px solid transparent;
+    font-size: .875rem;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--dur) var(--ease),
+                border-color var(--dur) var(--ease),
+                color var(--dur) var(--ease),
+                transform var(--dur) var(--ease);
 }
 
-.alert .container {
-    padding-inline: var(--gutter); /* el texto se alinea con el contenido */
+.btn-1:hover {
+    background-color: var(--gold-veil);
+    border-color: var(--gold-bright);
+    color: var(--gold-bright);
 }
+
+.btn-1:active { transform: translateY(1px); }
+
+.btn-1:disabled,
+.btn-1[aria-disabled="true"] { opacity: .55; cursor: not-allowed; transform: none; }
+
+/* Primario: la única placa dorada sólida de la pantalla */
+.btn-solid {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--on-gold);
+    font-weight: 700;
+}
+
+.btn-solid:hover { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--on-gold); }
+.btn-solid:active { background: var(--gold-press); border-color: var(--gold-press); }
+
+/* Terciario: enlace de texto con flecha que se desplaza */
+.btn-2 {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-2);
+    min-height: 44px;
+    color: var(--gold-text);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    transition: color var(--dur) var(--ease);
+}
+
+.btn-2::after { content: "→"; transition: transform var(--dur) var(--ease); }
+.btn-2:hover { color: var(--gold-bright); }
+.btn-2:hover::after { transform: translateX(4px); }
+
+/* ---- Chip de precio: el único solapamiento sancionado.
+        Cruza la esquina de la plancha fotográfica ---- */
+.precio,
+.oferta-precio {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-num);
+    font-weight: 600;
+    font-size: .95rem;
+    line-height: 1;
+    color: var(--gold-bright);
+    background: rgba(31, 27, 22, .94);
+    border: 1px solid var(--gold);
+    border-radius: var(--r-pill);
+    padding: 8px 14px;
+    font-variant-numeric: tabular-nums;
+    /* impeccable-disable-next-line dark-glow: emisión del tubo de nixie — el resplandor
+       dorado de la cifra es el momento memorable que fija el contrato de dirección */
+    text-shadow: var(--glow);
+}
+
+/* ---- Banca de tubos: cada métrica de la casa, un tubo ---- */
+.tube-bank {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-3);
+    margin: var(--s-6) 0;
+}
+
+.tube {
+    min-width: 0;
+    padding: var(--s-3) var(--s-3) var(--s-2);
+    background: var(--tube-glass);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    box-shadow: inset 0 1px 0 rgba(242, 238, 230, .07);
+}
+
+.tube-label {
+    display: block;
+    font-size: .6875rem;   /* 11 – piso de legibilidad para texto funcional */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    color: var(--muted);
+    margin-bottom: var(--s-1);
+}
+
+.tube dd {
+    font-family: var(--font-num);
+    font-weight: 600;
+    font-size: clamp(.72rem, 1.4vw + .4rem, .95rem);
+    line-height: 1.25;
+    color: var(--gold-bright);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    /* impeccable-disable-next-line dark-glow: emisión del tubo de nixie — la cifra
+       encendida brilla en oro sobre el acero pavonado, promesa FIRST VIEWPORT */
+    text-shadow: var(--glow);
+}
+
+/* ---- Alertas del servidor: estado con texto + ícono ---- */
+.alert {
+    padding: var(--s-4) 0;
+    font-weight: 600;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+}
+
+.alert .container { padding-inline: var(--gutter); }
 
 .alert-ok {
-    background: var(--success-bg);
     color: var(--success);
     border-bottom-color: var(--success-line);
 }
 
-.alert-ok .container::before {
-    content: "✓ ";
-    font-weight: 700;
-}
+.alert-ok .container::before { content: "✓ "; font-weight: 700; }
 
 .alert-error {
-    background: var(--danger-bg);
     color: var(--danger);
-    border-bottom-color: var(--danger-line);
+    background: var(--danger-bg);
+    border-bottom-style: dashed;
+    border-bottom-color: var(--ink);
 }
 
-.alert-error .container::before {
-    content: "✕ ";
-    font-weight: 700;
-}
+.alert-error .container::before { content: "✕ "; font-weight: 700; }
 
 /* ---- Errores de validación: se leen sin depender del color ---- */
 .field-error {
@@ -1152,133 +398,957 @@ summary:focus-visible {
 }
 
 .field-error::before {
-    content: "Error · ";
+    content: "✕ Error · ";
     font-size: var(--fs-2xs);
     text-transform: uppercase;
     letter-spacing: var(--track-caps);
 }
 
-.contact-form [aria-invalid="true"] {
-    border-color: var(--danger);
-    background-color: var(--danger-bg);
+/* Estado inválido: más luminancia, no otro color */
+.contact-form [aria-invalid="true"],
+.form-admin [aria-invalid="true"],
+.panel [aria-invalid="true"] {
+    border-color: var(--ink);
+    background-color: rgba(242, 238, 230, .06);
 }
 
-/* ---- Formularios ---- */
-.form-intro {
-    text-align: center;
+/* ---- Estado vacío ---- */
+.vacio {
+    text-align: left;
     color: var(--muted);
     line-height: var(--lh-body);
-    margin: calc(var(--s-2) * -1) auto var(--s-2);
-    max-width: 55ch;
+    padding: var(--s-6) 0;
 }
 
-.form-row {
+.vacio a { color: var(--gold-text); font-weight: 600; text-decoration: underline; }
+
+/* 4 · Páginas ------------------------------------------------- */
+
+/* ---- Barra superior: fina, sobre el chasis, con la placa
+        «Reservar mesa» siempre visible ---- */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    /* 8px de aire arriba y abajo: la barra mide lo mismo que antes
+       (8 + 48 + 8 + 1 de filete = 65px) pero ningún hijo toca el filete */
+    padding: var(--s-2) 0;
+    background: rgba(11, 12, 14, .92);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+}
+
+.menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    min-height: 48px;
+}
+
+.logo {
+    order: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 1.85rem);
+    line-height: 1;
+    color: var(--ink);
+    padding-block: var(--s-2);
+}
+
+/* El checkbox sigue en el árbol de accesibilidad pero sin espacio visual */
+#menu {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.menu label {
+    order: 3;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+}
+
+.menu-icono { width: 22px; height: auto; }
+
+#menu:focus-visible + label {
+    outline: 2px solid var(--gold-bright);
+    outline-offset: 3px;
+}
+
+.navbar { display: none; }
+
+/* Placa dorada de reserva en la barra */
+.nav-cta {
+    order: 1;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: var(--s-2) var(--s-4);
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: var(--r-sm);
+    color: var(--on-gold);
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    white-space: nowrap;
+    transition: background-color var(--dur) var(--ease);
+}
+
+.nav-cta:hover { background: var(--gold-bright); border-color: var(--gold-bright); color: var(--on-gold); }
+
+/* ---- Hero: placa fotográfica (7/12) + cifras encendidas (5/12) ---- */
+.header {
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--topbar-h));
+}
+
+.hero-main {
+    flex: 1;
+    display: grid;
+    gap: var(--s-6);
+    align-content: center;
+    padding-block: var(--s-8);
+}
+
+.hero-txt h1 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--fs-hero);
+    letter-spacing: -.015em;
+    color: var(--ink);
+    line-height: var(--lh-tight);
+    margin-bottom: var(--s-4);
+    text-wrap: balance;
+}
+
+.hero-sub {
+    font-size: clamp(.95rem, .8rem + .5vw, 1.1rem);
+    color: var(--ink-soft);
+    line-height: var(--lh-body);
+    max-width: 46ch;
+}
+
+.header-cta {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s-4);
+    align-items: center;
+    gap: var(--s-3);
 }
 
-.form-row > .form-group {
-    flex: 1 1 220px;
+/* Placa fotográfica con filete y marcas de registro */
+.hero-plate {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    overflow: hidden;
 }
 
-.contact-form .form-group {
-    margin-bottom: var(--s-4);
+.hero-plate img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    max-height: 46vh;
+    object-fit: cover;
 }
 
-.contacto-datos,
-.reservas-proximas {
-    margin-top: var(--s-8);
-    padding: var(--s-6);
+.hero-plate::before,
+.hero-plate::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--gold-dim);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-plate::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.hero-plate::after { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+/* Franja de dirección y horario al pie del viewport */
+.hero-strip {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    padding: var(--s-4) 0;
+    border-top: 1px solid var(--gold-dim);
+    font-family: var(--font-num);
+    font-size: .78rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.hero-strip b {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: .6875rem;   /* 11 – piso de legibilidad para texto funcional */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    color: var(--muted);
+    margin-bottom: 2px;
+}
+
+.hero-strip span { min-width: 0; }
+
+/* ---- Portada: bloques informativos ---- */
+.information { padding-top: clamp(var(--s-12), 8vw, var(--s-24)); }
+
+.information-content {
+    display: grid;
+    gap: var(--s-5);
+    align-items: start;
+}
+
+.information-1,
+.information-2 { display: flex; flex-direction: column; gap: var(--s-5); }
+
+/* Texto en placa de superficie; alineado a la izquierda (nada centrado) */
+.information-c1 {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
-    box-shadow: var(--shadow-1);
+    padding: clamp(var(--s-5), 3vw, var(--s-8));
+}
+
+.information-c1 h3 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xl);
+    font-weight: 700;
+    margin-bottom: var(--s-3);
+    color: var(--ink);
+}
+
+.information-c1 p {
+    color: var(--ink-soft);
+    line-height: var(--lh-body);
+    max-width: 62ch;
+    margin-bottom: var(--s-5);
+}
+
+/* Planchas fotográficas */
+.information-a1,
+.information-b1 {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--surface);
+}
+
+.information-a1 img,
+.information-b1 img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 16 / 10;
+}
+
+/* ---- Banda «¿Qué ofrecemos?»: el detalle de Satisfy ---- */
+.our {
+    margin-top: clamp(var(--s-12), 8vw, var(--s-24));
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    /* Aire explícito por breakpoint (40 → 48 → 64) en vez de clamp:
+       el valor computable se puede auditar y nunca queda pegado al filete */
+    padding: var(--s-10) 0;
+}
+
+.our .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-3) var(--s-6);
+}
+
+.our h2 {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+    color: var(--ink);
+}
+
+.our-guide {
+    font-size: var(--fs-2xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    color: var(--muted);
+    margin-left: auto;
+}
+
+/* ---- Destacados: filas editoriales alternadas (no una rejilla
+        de tarjetas idénticas) ---- */
+.oferta { padding-block: clamp(var(--s-12), 8vw, var(--s-24)); }
+
+.oferta-content { display: grid; gap: clamp(var(--s-8), 6vw, var(--s-16)); }
+
+.oferta-1 {
+    display: grid;
+    gap: var(--s-5);
+    align-items: center;
+}
+
+.oferta-media { position: relative; }
+
+.oferta-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+}
+
+.oferta-media .oferta-precio {
+    position: absolute;
+    left: -10px;
+    bottom: -16px;
+    z-index: 2;
+}
+
+.oferta-txt h3 {
+    font-family: var(--font-sans);
+    font-size: clamp(1.35rem, 1.1rem + 1vw, 1.85rem);
+    font-weight: 700;
+    margin-bottom: var(--s-3);
+}
+
+.oferta-txt p {
+    color: var(--ink-soft);
+    line-height: var(--lh-body);
+    max-width: 56ch;
+    margin-bottom: var(--s-5);
+}
+
+/* ---- Menú: índice de categorías (pestañas de pulgadero) ---- */
+.food { padding-block: clamp(var(--s-12), 8vw, var(--s-24)); }
+
+.food-cab {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--s-3) var(--s-6);
+    margin-bottom: var(--s-6);
+}
+
+.food-cab h2 {
+    font-size: var(--fs-section);
+    font-weight: 700;
+    letter-spacing: -.015em;
+}
+
+.food-cab span {
+    font-size: var(--fs-2xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    color: var(--muted);
+    margin-left: auto;
+}
+
+.indice {
+    position: sticky;
+    top: var(--topbar-h);
+    z-index: 40;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+    padding-block: var(--s-3);
+    margin-bottom: var(--s-8);
+    background: rgba(11, 12, 14, .94);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+}
+
+.indice a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink-soft);
+    font-size: .7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    transition: background-color var(--dur) var(--ease),
+                color var(--dur) var(--ease),
+                border-color var(--dur) var(--ease);
+}
+
+.indice a:hover,
+.indice a:focus-visible {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--on-gold);
+}
+
+.food-content { display: grid; gap: clamp(var(--s-8), 6vw, var(--s-16)); }
+
+.food-titulo {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    font-family: var(--font-sans);
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    color: var(--gold-text);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--s-3);
+    margin-bottom: var(--s-8);
+}
+
+.food-titulo::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+}
+
+.food-1 {
+    padding-bottom: var(--s-8);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: var(--s-8);
+}
+
+.food-1:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+
+.food-media {
+    position: relative;
+    margin-bottom: var(--s-8);
+}
+
+.food-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    object-fit: cover;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+}
+
+.food-media .precio {
+    position: absolute;
+    left: -10px;
+    bottom: -16px;
+    z-index: 2;
+}
+
+/* Sin foto: el chip vuelve al flujo normal */
+.food-media:not(:has(img)) { margin-bottom: var(--s-5); }
+.food-media:not(:has(img)) .precio { position: static; }
+
+.food-1 h3 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xl);
+    font-weight: 700;
+    margin-bottom: var(--s-2);
+}
+
+.food-desc {
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-body);
+    max-width: 56ch;
+}
+
+.food-cta { margin-top: clamp(var(--s-8), 6vw, var(--s-16)); text-align: left; }
+
+/* ---- Formularios: una sola columna, validación en línea ---- */
+.contact-form {
+    max-width: 640px;
+    margin-inline: auto;
+    padding-block: clamp(var(--s-12), 8vw, var(--s-24));
+}
+
+.container1 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-5);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    /* 20 → 24 → 32 por breakpoint; el panel nunca queda sin aire */
+    padding: var(--s-5);
+}
+
+.contact-form h2 {
+    font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem);
+    font-weight: 700;
+}
+
+.form-intro {
+    color: var(--muted);
+    line-height: var(--lh-body);
+    max-width: 60ch;
+    margin-top: calc(var(--s-2) * -1);
+}
+
+/* El <form> agrupa varias filas y campos sueltos: sin este ritmo,
+   el error de un campo chocaría con la etiqueta del siguiente. */
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+}
+
+.form-row { display: flex; flex-direction: column; gap: var(--s-4); }
+
+.form-group { display: flex; flex-direction: column; }
+
+.contact-form label {
+    font-size: var(--fs-2xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    color: var(--muted);
+    margin-bottom: var(--s-2);
+}
+
+/* Campos: etiqueta encima, error debajo, foco con anillo visible */
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    padding: var(--s-3);
+    min-height: 48px;
+    font-size: max(16px, var(--fs-md));
+    font-family: inherit;
+    color: var(--ink);
+    background-color: var(--surface-2);
+    border: 1px solid var(--line-input);
+    border-radius: var(--r-sm);
+    width: 100%;
+    transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+.contact-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23E7C55D' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--s-4) center;
+    padding-right: var(--s-10);
+    cursor: pointer;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+    border-color: var(--gold);
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+}
+
+.contact-form textarea { resize: vertical; min-height: 140px; }
+
+/* Fecha y hora con cifras de ancho fijo */
+.contact-form input[type="date"],
+.contact-form input[type="time"] {
+    font-family: var(--font-num);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Botón primario de las páginas de envío */
+.contact-form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+    min-height: 52px;
+    padding: var(--s-3) var(--s-8);
+    font-size: var(--fs-sm);
+    font-family: inherit;
+    font-weight: 700;
+    letter-spacing: var(--track-caps);
+    text-transform: uppercase;
+    background-color: var(--gold);
+    color: var(--on-gold);
+    border: 1px solid var(--gold);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    position: relative;
+    transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.contact-form button:hover { background-color: var(--gold-bright); border-color: var(--gold-bright); }
+.contact-form button:active { transform: translateY(1px); background-color: var(--gold-press); border-color: var(--gold-press); }
+.contact-form button:disabled { opacity: .7; cursor: progress; transform: none; }
+
+.contact-form button[data-cargando] { color: transparent; }
+
+.contact-form button[data-cargando]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(11, 12, 14, .3);
+    border-top-color: var(--on-gold);
+    border-radius: 50%;
+    animation: girar .7s linear infinite;
+}
+
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* ---- Placas de datos: contacto y próximas reservas ---- */
+.contacto-datos,
+.reservas-proximas {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    /* 20 → 24 por breakpoint */
+    padding: var(--s-5);
 }
 
 .contacto-datos h3,
 .reservas-proximas h3 {
     font-family: var(--font-sans);
-    font-size: var(--fs-md);
+    font-size: .75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: var(--track-caps);
-    margin-bottom: var(--s-3);
+    color: var(--muted);
+    margin-bottom: var(--s-4);
 }
 
 .contacto-datos ul,
 .reservas-proximas ul {
-    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--s-2);
+    gap: var(--s-3);
     color: var(--ink-soft);
     font-size: var(--fs-sm);
-}
-
-.reservas-proximas ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: var(--s-2) var(--s-5);
-}
-
-/* ---- Menú desde la base de datos ---- */
-h2.food-titulo,
-h3.food-titulo {
-    font-family: var(--font-sans);
-    font-size: var(--fs-md);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--track-caps);
-    color: var(--gold-text);
-    border-bottom: 2px solid var(--gold);
-    padding-bottom: var(--s-2);
-    margin-bottom: var(--s-6);
-}
-
-.food-desc {
-    font-size: var(--fs-xs);
-    color: var(--muted);
     line-height: var(--lh-body);
-    margin-top: var(--s-2);
-    max-width: 320px;
 }
 
-.food-cta {
-    margin-top: var(--s-6);
-    text-align: center;
-}
+.contacto-datos li { overflow-wrap: anywhere; }
 
-/* Estado vacío: mensaje útil + acción sugerida */
-.vacio {
-    text-align: center;
-    color: var(--muted);
-    line-height: var(--lh-body);
-    padding: var(--s-8) var(--s-3);
-}
-
-.vacio a {
+/* La dirección enlaza a Google Maps; el texto del enlace mantiene
+   la línea legible y se subraya para no depender solo del color */
+.contacto-mapa {
     color: var(--gold-text);
     font-weight: 600;
     text-decoration: underline;
-    text-underline-offset: 4px;
+    text-underline-offset: 3px;
 }
+.contacto-mapa:hover { color: var(--gold-bright); }
 
-.oferta-precio {
-    font-size: var(--fs-xl) !important;
-    font-weight: 700;
+/* Cifras de las próximas reservas: 14px para que la línea completa
+   (fecha · hora · comensales) quepa sin partirse en un teléfono */
+.reservas-proximas ul {
+    font-family: var(--font-num);
+    font-size: var(--fs-xs);
     font-variant-numeric: tabular-nums;
-    color: var(--gold-text-strong) !important;
-    margin-top: var(--s-2);
 }
+.reservas-proximas li { color: var(--gold-text); }
 
 /* ---- Pie de página ---- */
-.footer-admin {
-    display: inline-block;
-    margin-left: 12px;
-    color: var(--orange);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    font-size: .85rem;
+footer {
+    background-color: var(--bg-deep);
+    color: var(--ink-soft);
+    border-top: 1px solid var(--gold-dim);
+    padding: var(--s-10) 0 0;
+    line-height: var(--lh-body);
+    text-align: left;
 }
 
+.footer-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-8);
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter) var(--s-8);
+}
+
+.footer-section h2 {
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+    color: var(--muted);
+    margin-bottom: var(--s-3);
+}
+
+.footer-section p { max-width: 48ch; color: var(--ink-soft); }
+
+.footer-section ul { display: flex; flex-direction: column; gap: var(--s-1); }
+
+.footer-section a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink-soft);
+}
+
+.footer-section a:hover,
+.footer-section a:focus-visible { color: var(--gold-bright); }
+
+.footer-section.social-media { display: flex; flex-direction: column; }
+
+.footer-bottom {
+    border-top: 1px solid var(--line);
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: var(--s-5) var(--gutter) var(--s-8);
+    font-family: var(--font-num);
+    font-size: var(--fs-2xs);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.footer-admin {
+    display: inline-block;
+    margin-left: var(--s-3);
+    color: var(--gold-text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-family: var(--font-sans);
+}
+
+/* Provenance de las fotos con licencia CC */
+.credito {
+    display: block;
+    margin-top: var(--s-3);
+    font-family: var(--font-sans);
+    font-size: .7rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 90ch;
+}
+
+.credito a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+.credito a:hover { color: var(--gold-bright); }
+
+/* 5 · Movimiento --------------------------------------------- */
+
+/* Entrada al entrar en cuadro: un solo momento autorizado */
+@media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+        .information-content,
+        .oferta-1,
+        .food-content,
+        .food-cta,
+        .contact-form,
+        .contacto-datos,
+        .reservas-proximas {
+            animation: reveal-up .5s var(--ease) both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 35%;
+        }
+    }
+}
+
+@keyframes reveal-up {
+    from { opacity: 0; translate: 0 20px; }
+    to { opacity: 1; translate: 0 0; }
+}
+
+/* Encendido de los tubos: la banca se enciende una sola vez */
+@media (prefers-reduced-motion: no-preference) {
+    .tube { animation: tubo-encender .6s var(--ease) both; }
+    .tube:nth-child(2) { animation-delay: .1s; }
+    .tube:nth-child(3) { animation-delay: .2s; }
+}
+
+@keyframes tubo-encender {
+    0% { opacity: 0; box-shadow: inset 0 1px 0 rgba(242, 238, 230, .07); }
+    40% { opacity: 1; }
+    55% { opacity: .7; }
+    100% { opacity: 1; box-shadow: inset 0 1px 0 rgba(242, 238, 230, .07); }
+}
+
+/* Respeta a quien prefiera menos movimiento: sin giro, texto directo */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    html { scroll-behavior: auto; }
+
+    .contact-form button[data-cargando] { color: var(--on-gold); }
+    .contact-form button[data-cargando]::after { display: none; }
+}
+
+/* 6 · Responsive — móvil primero · 640 / 1024 / 1280 ----------- */
+
+/* Menú de navegación desplegable (base: teléfonos) */
+#menu:checked ~ .navbar {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0 0 var(--r-md) var(--r-md);
+    overflow: hidden;
+}
+
+.navbar ul { display: block; }
+
+.navbar li + li { border-top: 1px solid var(--line); }
+
+.navbar a {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: var(--s-3) var(--s-4);
+    color: var(--ink-soft);
+    font-size: .8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--track-caps);
+}
+
+.navbar a:hover { background: var(--gold-veil); color: var(--gold-bright); }
+
+.navbar a[aria-current="page"] {
+    color: var(--gold-text);
+    box-shadow: inset 2px 0 0 var(--gold);
+}
+
+@media (min-width: 640px) {
+    .hero-strip {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--s-3) var(--s-10);
+    }
+
+    .hero-strip b { display: inline; margin-right: var(--s-3); }
+
+    .information-1,
+    .information-2 { gap: var(--s-6); }
+
+    .oferta-1 { column-gap: var(--s-8); }
+
+    .footer-content { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .tube { padding: var(--s-4) var(--s-4) var(--s-3); }
+
+    .our { padding: var(--s-12) 0; }
+
+    .container1 { padding: var(--s-6); }
+
+    .contacto-datos,
+    .reservas-proximas { padding: var(--s-6); }
+}
+
+@media (min-width: 1024px) {
+    /* Navegación completa; el desplegable deja de existir */
+    .menu label { display: none; }
+
+    .navbar {
+        display: block;
+        position: static;
+        margin-left: auto;
+        background: none;
+        border: 0;
+        border-radius: 0;
+        overflow: visible;
+    }
+
+    .navbar ul { display: flex; align-items: center; }
+
+    .navbar li + li { border-top: 0; }
+
+    .navbar a {
+        min-height: 44px;
+        padding: var(--s-2) var(--s-4);
+        box-shadow: inset 0 -2px 0 transparent;
+    }
+
+    .navbar a:hover { background: none; box-shadow: inset 0 -2px 0 var(--gold-dim); }
+
+    .navbar a[aria-current="page"] {
+        background: none;
+        box-shadow: inset 0 -2px 0 var(--gold);
+    }
+
+    .nav-cta { margin-left: var(--s-5); }
+
+    /* Hero: placa fotográfica 7/12 · cifras 5/12 */
+    .hero-main {
+        grid-template-columns: 7fr 5fr;
+        column-gap: clamp(var(--s-8), 4vw, var(--s-16));
+        align-items: center;
+    }
+
+    .hero-txt {
+        grid-column: 2;
+        grid-row: 1;
+        border-top: 1px solid var(--gold);
+        padding-top: var(--s-5);
+    }
+
+    .hero-plate {
+        grid-column: 1;
+        grid-row: 1;
+        height: clamp(320px, 56vh, 560px);
+    }
+
+    .hero-plate img { max-height: none; height: 100%; }
+
+    .hero-strip { flex-direction: row; flex-wrap: wrap; gap: var(--s-3) var(--s-10); }
+
+    /* Portada: columnas asimétricas, nunca dos tarjetas gemelas */
+    .information-content { grid-template-columns: minmax(0, 34%) minmax(0, 66%); gap: var(--s-8); }
+
+    .information-1 { flex-direction: column; }
+    .information-2 { flex-direction: column; }
+
+    /* Filas alternadas de destacados */
+    .oferta-1 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+    /* Menú: una columna por grupo de categoría */
+    .food-content { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .footer-content { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .our { padding: var(--s-16) 0; }
+
+    .container1 { padding: var(--s-8); }
+}
+
+@media (min-width: 1280px) {
+    .hero-main { column-gap: var(--s-16); }
+
+    .food-content { gap: var(--s-16); }
+
+    .oferta-1 { column-gap: var(--s-16); }
+}

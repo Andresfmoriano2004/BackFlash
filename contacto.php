@@ -69,7 +69,11 @@ require __DIR__ . '/includes/header.php';
             <div class="contacto-datos">
                 <h3>También puedes encontrarnos en</h3>
                 <ul>
-                    <li><strong>Dirección:</strong> <?= e(SITE_ADDRESS) ?></li>
+                    <li><strong>Dirección:</strong>
+                        <a class="contacto-mapa"
+                           href="https://www.google.com/maps/search/?api=1&amp;query=<?= rawurlencode(SITE_ADDRESS . ', Pereira, Colombia') ?>"
+                           target="_blank" rel="noopener noreferrer"><?= e(SITE_ADDRESS) ?> ↗</a>
+                    </li>
                     <li><strong>Teléfono:</strong> <?= e(SITE_PHONE) ?></li>
                     <li><strong>Email:</strong> <?= e(SITE_EMAIL) ?></li>
                     <li><strong>Horario:</strong> martes a domingo, 11:00 a. m. – 10:00 p. m.</li>

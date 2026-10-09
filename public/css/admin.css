@@ -23,33 +23,33 @@
 
     /* Navegación */
     --adm-nav-text: #e8e8e8;
-    --adm-nav-hover: #3d3d3d;
-    --adm-exit: #7a2e2e;
-    --adm-exit-hover: #a13c3c;
+    --adm-nav-hover: #2C2C2C;
+    --adm-exit: #1F1B16;
+    --adm-exit-hover: #3A3630;
 
-    /* Superficies y fichas */
-    --adm-tint: #faf9f5;
-    --adm-tint-unread: #fffaf0;
-    --adm-chip: #f1efe7;
-    --adm-chip-hover: #e5e2d6;
-    --adm-thead: #f7f6f1;
-    --adm-row-hover: #fcfbf7;
-    --adm-img-bg: #f2f0e9;
-    --adm-btn-soft: #efede4;
+    /* Superficies y fichas (chasis: mismas capas que el sitio) */
+    --adm-tint: #17170F;
+    --adm-tint-unread: #1F1B16;
+    --adm-chip: #1F1B16;
+    --adm-chip-hover: #2C2C2C;
+    --adm-thead: #1F1B16;
+    --adm-row-hover: #17170F;
+    --adm-img-bg: #1F1B16;
+    --adm-btn-soft: #1F1B16;
 
-    /* Estados */
-    --adm-danger-text: #a12b2b;
-    --adm-danger-soft: #fbeaea;
-    --adm-danger-soft-line: #eec9c9;
-    --adm-badge-bg: #eceae2;
-    --adm-warn-bg: #ffe9bd;
-    --adm-warn-text: #7a5600;
-    --adm-ok-bg: #d8f0dd;
-    --adm-bad-bg: #fadcdc;
+    /* Estados: una sola tinta; el texto lleva el significado */
+    --adm-danger-text: #F2EEE6;
+    --adm-danger-soft: rgba(242, 238, 230, .07);
+    --adm-danger-soft-line: #807A6E;
+    --adm-badge-bg: #1F1B16;
+    --adm-warn-bg: rgba(201, 165, 56, .14);
+    --adm-warn-text: #E7C55D;
+    --adm-ok-bg: rgba(201, 165, 56, .18);
+    --adm-bad-bg: rgba(242, 238, 230, .08);
 
     /* Fondo del acceso */
-    --adm-login-mid: #17170f;
-    --adm-login-end: #3a3018;
+    --adm-login-mid: #101012;
+    --adm-login-end: #1F1B16;
 }
 
 @media (pointer: coarse) {
@@ -93,14 +93,14 @@ body.admin {
     gap: var(--s-2) var(--s-4);
     padding: var(--s-3) max(var(--gutter), env(safe-area-inset-right)) var(--s-2) max(var(--gutter), env(safe-area-inset-left));
     background: var(--bg-deep);
-    color: var(--surface);
+    color: var(--ink);
 }
 
 .admin-logo {
     display: flex;
     align-items: center;
     gap: var(--s-3);
-    color: var(--surface);
+    color: var(--ink);
     font-weight: 800;
     font-size: var(--fs-xl);
     text-transform: uppercase;
@@ -158,7 +158,7 @@ body.admin {
 
 .admin-nav a[aria-current="page"] {
     background: var(--gold);
-    color: var(--ink);
+    color: var(--on-gold);
 }
 
 .admin-nav a.admin-salir {
@@ -198,6 +198,12 @@ body.admin {
 }
 
 /* ---------- Contenido ---------- */
+/* La espina dorada es un recurso de las páginas públicas; en el panel
+   sobra y se lee como una línea suelta junto al contenido. */
+main.admin-main::before {
+    display: none;
+}
+
 .admin-main {
     max-width: var(--container);
     margin: 0 auto;
@@ -233,7 +239,8 @@ body.admin {
     gap: var(--s-1);
     background: var(--surface);
     border: 1px solid var(--line);
-    border-left: 4px solid var(--gold);
+    /* Filete superior dorado: mismo acento de marca sin el tab lateral */
+    border-top-color: var(--gold);
     border-radius: var(--r-md);
     padding: var(--s-4);
     color: var(--ink);
@@ -270,7 +277,6 @@ body.admin {
     }
 
     .card {
-        border-left-width: 5px;
         padding: var(--s-5) var(--s-6);
     }
 
@@ -377,15 +383,29 @@ body.admin {
 }
 
 .lista li {
-    border-left: 4px solid var(--line);
+    border: 1px solid var(--line);
     padding: var(--s-2) var(--s-3);
     background: var(--adm-tint);
-    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    border-radius: var(--r-sm);
 }
 
 .lista li.sin-leer {
-    border-left-color: var(--gold);
+    border-color: var(--gold-text);
     background: var(--adm-tint-unread);
+}
+
+/* No leído: marcador geométrico (punto) además del tinte y del borde,
+   para que el estado no dependa solo del color. --gold-text mantiene
+   el punto por encima de 3:1 sobre el tinte claro. */
+.lista li.sin-leer::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: var(--r-pill);
+    background: var(--gold-text);
+    margin-right: var(--s-2);
+    vertical-align: middle;
 }
 
 .lista-meta {
@@ -426,13 +446,13 @@ body.admin {
 
 .filtros a.activo {
     background: var(--gold);
-    color: var(--ink);
+    color: var(--on-gold);
 }
 
 @media (hover: hover) {
     .filtros a:hover {
         background: var(--gold);
-        color: var(--ink);
+        color: var(--on-gold);
     }
 }
 
@@ -465,6 +485,11 @@ body.admin {
     vertical-align: top;
 }
 
+/* La cifra no se parte: "$20.000 COP" ocupa una sola línea */
+.tabla td[data-label="Precio"] {
+    white-space: nowrap;
+}
+
 .tabla thead th {
     background: var(--adm-thead);
     font-size: var(--fs-2xs);
@@ -491,7 +516,7 @@ body.admin {
     max-width: 340px;
     white-space: pre-line;
     overflow-wrap: anywhere;
-    color: #444;
+    color: var(--ink-soft);
 }
 
 .mini {
@@ -538,14 +563,14 @@ body.admin {
 
     .tabla tbody tr.sin-leer {
         background: var(--adm-tint-unread);
-        border-left: 4px solid var(--gold);
+        border-color: var(--gold-text);
     }
 
+    /* Celda: etiqueta grabada encima, valor debajo, todo alineado a
+       la izquierda (con columna a la derecha los textos quedaban
+       escalonados al envolverse) */
     .tabla td {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: var(--s-1) var(--s-3);
+        display: block;
         padding: var(--s-2) var(--s-4);
         border-bottom: 0;
     }
@@ -564,12 +589,13 @@ body.admin {
 
     .tabla td::before {
         content: attr(data-label);
-        flex: 0 0 min(38%, 9rem);
+        display: block;
         font-size: var(--fs-2xs);
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: var(--track-caps);
         color: var(--muted);
+        margin-bottom: 2px;
     }
 
     /* Celdas sin etiqueta (por ejemplo, acciones) no reservan hueco */
@@ -584,10 +610,12 @@ body.admin {
 }
 
 /* ---------- Insignias ---------- */
-/* El texto indica el estado; el color solo lo refuerza */
+/* El texto indica el estado; el borde y el tinte solo lo refuerzan
+   (una sola tinta en todo el panel) */
 .badge {
     display: inline-block;
     padding: .2em .7em;
+    border: 1px solid var(--line-strong);
     border-radius: var(--r-pill);
     font-size: var(--fs-2xs);
     font-weight: 700;
@@ -598,22 +626,29 @@ body.admin {
 
 .badge-gold {
     background: var(--gold);
-    color: var(--ink);
+    border-color: var(--gold);
+    color: var(--on-gold);
 }
 
 .badge-pendiente {
     background: var(--adm-warn-bg);
+    border-color: var(--gold);
+    border-style: dashed;
     color: var(--adm-warn-text);
 }
 
 .badge-confirmada {
     background: var(--adm-ok-bg);
+    border-color: var(--gold);
     color: var(--success);
 }
 
+/* Cancelado: tachado — el estado se lee sin depender del color */
 .badge-cancelada {
     background: var(--adm-bad-bg);
+    border-color: var(--adm-danger-soft-line);
     color: var(--adm-danger-text);
+    text-decoration: line-through;
 }
 
 /* ---------- Formularios ---------- */
@@ -661,8 +696,12 @@ body.admin {
     border-color: var(--gold-text);
 }
 
+/* style.css define .form-row en columna para los formularios públicos;
+   aquí se reinicia a fila para que las parejas (precio/categoría,
+   orden/imagen) convivan sin heredar el flex-basis vertical. */
 .form-row {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: var(--s-4);
 }
@@ -686,6 +725,40 @@ body.admin {
     margin: 0;
 }
 
+/* Vista previa de la imagen antes de subirla (public/js/admin.js) */
+.img-preview {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    margin-top: var(--s-3);
+    padding: var(--s-2);
+    background: var(--adm-img-bg);
+    border: 1px solid var(--line-input);
+    border-radius: var(--r-sm);
+    min-width: 0;
+}
+
+/* [hidden] debe ganar al display: flex de arriba */
+.img-preview[hidden] { display: none; }
+
+.img-preview img {
+    display: block;
+    flex: 0 0 auto;
+    width: 96px;
+    height: 72px;
+    object-fit: cover;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+}
+
+.img-preview-nombre {
+    min-width: 0;
+    font-size: var(--fs-2xs);
+    color: var(--muted);
+    overflow-wrap: anywhere;
+}
+
 .form-actions {
     display: flex;
     flex-wrap: wrap;
@@ -694,9 +767,11 @@ body.admin {
     margin-top: var(--s-2);
 }
 
-/* Botón principal */
-.form-actions button,
-.panel button[type="submit"],
+/* Botón principal. Los botones compactos de fila (.btn-mini) y los
+   destructivos (.btn-peligro) quedan fuera: en el panel solo una
+   placa dorada por vista, la acción principal. */
+.form-actions button:not(.btn-mini, .btn-peligro),
+.panel button[type="submit"]:not(.btn-mini, .btn-peligro),
 .admin-login button[type="submit"] {
     display: inline-flex;
     align-items: center;
@@ -704,8 +779,8 @@ body.admin {
     min-height: 44px;
     padding: var(--s-3) var(--s-6);
     background: var(--gold);
-    color: var(--ink);
-    border: 2px solid var(--gold);
+    color: var(--on-gold);
+    border: 1px solid var(--gold);
     border-radius: var(--r-md);
     font-size: var(--fs-sm);
     font-weight: 700;
@@ -720,8 +795,8 @@ body.admin {
 }
 
 @media (hover: hover) {
-    .form-actions button:hover,
-    .panel button[type="submit"]:hover,
+    .form-actions button:not(.btn-mini, .btn-peligro):hover,
+    .panel button[type="submit"]:not(.btn-mini, .btn-peligro):hover,
     .admin-login button[type="submit"]:hover {
         background: var(--gold-hover);
         border-color: var(--gold-hover);
@@ -807,7 +882,7 @@ body.admin {
     .btn-mini:hover {
         background: var(--gold);
         border-color: var(--gold);
-        color: var(--ink);
+        color: var(--on-gold);
     }
 }
 
@@ -819,9 +894,9 @@ body.admin {
 
 @media (hover: hover) {
     .btn-peligro:hover {
-        background: var(--danger-line);
-        border-color: var(--danger-line);
-        color: #fff;
+        background: rgba(242, 238, 230, .14);
+        border-color: var(--ink);
+        color: var(--ink);
     }
 }
 
@@ -856,7 +931,7 @@ body.admin {
 }
 
 .field-error::before {
-    content: "Error · ";
+    content: "✕ Error · ";
     font-size: var(--fs-2xs);
     text-transform: uppercase;
     letter-spacing: var(--track-caps);
@@ -877,10 +952,11 @@ body.admin {
     width: 100%;
     max-width: 420px;
     background: var(--surface);
+    border: 1px solid var(--line);
     border-radius: var(--r-lg);
     padding: var(--s-6) var(--s-5);
     text-align: center;
-    box-shadow: 0 24px 60px rgb(0 0 0 / .45);
+    box-shadow: var(--shadow-2);
 }
 
 .admin-login-logo {
@@ -925,6 +1001,9 @@ body.admin {
     font-size: max(16px, var(--fs-md));
     font-family: inherit;
     color: var(--ink);
+    /* Mismo campo elevado que en los formularios públicos (sin el gris
+       por defecto del navegador, que rompe el chasis cálido) */
+    background: var(--surface-2);
     box-sizing: border-box;
     transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }

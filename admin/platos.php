@@ -217,6 +217,12 @@ $platos = q('SELECT * FROM platos ORDER BY categoria, orden, nombre')->fetchAll(
                     <label for="p-img">Imagen (JPG, PNG o WEBP · máx. 3 MB)</label>
                     <input type="file" id="p-img" name="imagen" accept="image/jpeg,image/png,image/webp">
                     <?php mostrar_error('imagen'); ?>
+                    <div class="img-preview" id="p-img-preview"<?= empty($editar['imagen']) ? ' hidden' : '' ?>>
+                        <?php if (!empty($editar['imagen'])): ?>
+                            <img src="<?= e(url($editar['imagen'])) ?>" alt="Imagen actual de este plato" width="96" height="72">
+                        <?php endif; ?>
+                        <span class="img-preview-nombre" data-nombre></span>
+                    </div>
                     <?php if (!empty($editar['imagen'])): ?>
                         <label class="check"><input type="checkbox" name="quitar_imagen"> Quitar la imagen actual</label>
                     <?php endif; ?>

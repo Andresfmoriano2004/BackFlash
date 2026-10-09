@@ -1,0 +1,151 @@
+{
+  "title": "Elige el mundo visual de BackFlash",
+  "question": "El roll asignó «Libro de la casa». Consérvalo, toma una alternativa o vuelve a tirar.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Libro de la casa",
+      "kicker": "THE ROLL",
+      "lineage": "libro de reservas encuadernado de una casa de comidas",
+      "thesis": "El sitio es el libro que la casa lleva: filete dorado continuo, cifras tabulares, fotografías pegadas con esquineros y estados sellados.",
+      "palette": ["#141210", "#1F1B17", "#C9A538", "#F2EEE6"],
+      "materials": ["tela oscura con filigrana dorada", "página reglada con fotografías pegadas"],
+      "viewport": "Una página abierta: filete dorado de punta a punta, la sala fotografiada pegada a la izquierda, el titular colgado del filete y «Reservar mesa» como placa de latón.",
+      "risk": "Se vuelve administrativa si el reglado no se rompe con fotografía grande y ritmo vertical.",
+      "raised": [
+        { "from": "lexicon-shoulder-plate", "raise": "Sube de léxico: color confinado dentro de las planchas fotográficas, índice de pulgar en el hombro y palabras-guía en la cabecera («PLATOS · BEBIDAS»)." },
+        { "from": "nixie-laboratory-counter", "raise": "Sube de nixie: todas las cifras —precio, hora, comensales— son tabulares, de ancho fijo y alineadas en columna, y cambian en el sitio sin saltar." },
+        { "from": "architecture-daylight-section", "raise": "Sube de sección de luz: una única espina dorada recorre la página entera y todo el contenido cuelga de ella con anotaciones fijadas (folio, horario, dirección)." },
+        { "from": "accretion-disk-threshold", "raise": "Sube de acreción: la luz solo vive en el borde; el centro de cada campo oscuro queda sin relleno y el dorado aparece únicamente donde se actúa." },
+        { "from": "ascii-live-scene-render", "raise": "Sube de ASCII: una sola tinta —ningún segundo acento cromático en la interfaz; el color existe únicamente dentro de las fotografías." },
+        { "from": "risograph-zine-cover", "raise": "Sube de riso: un único solapamiento sancionado en todo el sistema —el chip de precio cruza la esquina de la foto— y ningún otro elemento se solapa." }
+      ],
+      "wireframe": {
+        "cols": 12,
+        "rows": 10,
+        "regions": [
+          { "label": "palabras-guía: horario · dirección", "x": 0, "y": 0, "w": 12, "h": 1 },
+          { "label": "navegación + logotipo", "x": 0, "y": 1, "w": 12, "h": 1, "accent": true },
+          { "label": "fotografía de la sala pegada", "x": 0, "y": 2, "w": 7, "h": 6, "accent": true },
+          { "label": "titular colgado del filete + CTA Reservar", "x": 7, "y": 3, "w": 5, "h": 4 },
+          { "label": "filete dorado continuo", "x": 7, "y": 2, "w": 1, "h": 6, "accent": true },
+          { "label": "platos destacados en filas regladas", "x": 0, "y": 8, "w": 12, "h": 2 }
+        ]
+      }
+    },
+    {
+      "id": "model-pick",
+      "label": "El salón al anochecer",
+      "kicker": "IMPECCABLE'S PICK",
+      "lineage": "la sala encendida al anochecer: lámparas bajas y luz que cae en pozos",
+      "thesis": "El sitio es el ambiente del lugar: fotografía a sangre, pozos de luz cálida y el dorado usado como luz, no como adorno.",
+      "palette": ["#100E0C", "#241F19", "#C9A538", "#EDE7DC"],
+      "materials": ["fotografía de sala con luz práctica", "superficies en capas como mesas bajo lámpara"],
+      "viewport": "La sala fotografiada a sangre, el titular colgado a la izquierda dentro de un pozo de luz y «Reservar mesa» visible sin hacer scroll.",
+      "risk": "Es la apuesta más previsible de un restaurante: si la fotografía no es excelente, cae en el típico sitio con foto de fondo.",
+      "wireframe": {
+        "cols": 12,
+        "rows": 10,
+        "regions": [
+          { "label": "fotografía de la sala a sangre", "x": 0, "y": 0, "w": 12, "h": 7, "accent": true },
+          { "label": "navegación sobre la foto", "x": 0, "y": 0, "w": 12, "h": 1 },
+          { "label": "titular dentro del pozo de luz + CTA", "x": 1, "y": 4, "w": 7, "h": 3, "accent": true },
+          { "label": "franja horario · dirección", "x": 0, "y": 7, "w": 12, "h": 1 },
+          { "label": "platos destacados asimétricos", "x": 0, "y": 8, "w": 12, "h": 2 }
+        ]
+      }
+    },
+    {
+      "id": "challenger-lexicon",
+      "label": "Léxico con hombro y plancha",
+      "verdict": "competitive",
+      "lineage": "página de léxico decimonónica con índice de pulgar",
+      "thesis": "El menú como entrada de referencia: palabras-guía en la cabecera, índice lateral y todo el color confinado en planchas bordeadas.",
+      "palette": ["#0E0D0B", "#E9E1D0", "#C9A538", "#B4472E"],
+      "materials": ["tinta negra sobre papel sin estucar", "planchas cromolíticas bordeadas"],
+      "viewport": "Cabecera con dos palabras-guía, índice de pulgar al hombro y columnas de medida fija; la única región con color es la fotografía.",
+      "case": "Fusiona bien: el índice y las palabras-guía vuelven clarísima la carta; pierde en identificación, porque un léxico no es el mundo de un comensal de Pereira.",
+      "risk": "Puede leerse libresco y frío si la medida no se rompe con fotografía grande.",
+      "hero": "https://impeccable.style/worlds/cards/rw-lexicon-shoulder-and-plate-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/rw-lexicon-shoulder-and-plate.webp"
+    },
+    {
+      "id": "challenger-nixie",
+      "label": "Contador de tubos de nixie",
+      "verdict": "competitive",
+      "lineage": "mostrador de laboratorio con dígitos de cátodo dentro de cristal",
+      "thesis": "Cada cifra de la casa —hora, comensales, precio— es un banco de dígitos de ancho fijo que cambia en el sitio sin saltar.",
+      "palette": ["#0B0C0E", "#191B1F", "#C9A538", "#D8D3C6"],
+      "materials": ["acero pavonado", "cristal y cifras de ancho fijo"],
+      "viewport": "Banco de cifras tabulares para hora y comensales sobre chasis oscuro, con etiquetas grabadas en versalitas.",
+      "case": "Fusiona bien: la reserva vive de números y el banco los vuelve legibles de un vistazo; pierde en identificación, porque un laboratorio no es el mundo del comensal. El resplandor se traduce al oro de marca.",
+      "risk": "Puede volverse instrumentación y perder calidez si se extiende a todo el sitio.",
+      "hero": "https://impeccable.style/worlds/cards/signals-instruments-nixie-laboratory-counter-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/signals-instruments-nixie-laboratory-counter.webp"
+    },
+    {
+      "id": "challenger-daylight",
+      "label": "Sección de luz diurna",
+      "verdict": "declined",
+      "lineage": "sección arquitectónica por la que el sol corta habitaciones",
+      "thesis": "La página como sección continua de punta a punta por la que pasa la luz del día.",
+      "palette": ["#F4F1EA", "#23211D", "#C9A538", "#5B6C7A"],
+      "materials": ["cal blanqueada", "poche en carbón"],
+      "viewport": "Una sección continua con anotaciones fijadas a ángulos de sol.",
+      "case": "Fusiona mal: el dibujo de arquitectura no es el mundo de quien busca mesa en Pereira; pierde en identificación y en claridad.",
+      "kept": "La espina reglada continua de punta a punta.",
+      "hero": "https://impeccable.style/worlds/cards/architecture-inhabitable-space-daylight-section-hero.webp"
+    },
+    {
+      "id": "challenger-accretion",
+      "label": "Disco de acreción",
+      "verdict": "declined",
+      "lineage": "horizonte de sucesos con luz plegada en un anillo",
+      "thesis": "Toda la luz vive en el anillo y el centro queda como vacío.",
+      "palette": ["#050505", "#141414", "#C9A538", "#E7E2D8"],
+      "materials": ["vacío sin relleno", "aro luminoso"],
+      "viewport": "Centro oscuro sin rellenar y luz concentrada solo en el borde activo.",
+      "case": "Fusiona mal: un fenómeno astronómico no identifica a un comensal ni explica qué se sirve; pierde en ambos ejes.",
+      "kept": "El centro de cada campo oscuro nunca se rellena.",
+      "hero": "https://impeccable.style/worlds/cards/galaxies-nebulae-deep-time-accretion-disk-threshold-hero.webp"
+    },
+    {
+      "id": "challenger-ascii",
+      "label": "Escena viva en ASCII",
+      "verdict": "declined",
+      "lineage": "monitor de fósforo con la imagen reducida a glifos",
+      "thesis": "La imagen como densidad de caracteres sobre una retícula monoespaciada.",
+      "palette": ["#0A0F0A", "#1FE07A", "#0F120F"],
+      "materials": ["rejilla monoespaciada", "una sola tinta de fósforo"],
+      "viewport": "Una retícula de caracteres dibuja la escena entera.",
+      "case": "Fusiona mal: la comida en glifos no abre el apetito ni se lee en un teléfono; pierde en identificación y en claridad.",
+      "kept": "Una sola tinta en todo el sistema.",
+      "hero": "https://impeccable.style/worlds/cards/medium-native-ascii-live-scene-render-hero.webp"
+    },
+    {
+      "id": "challenger-riso",
+      "label": "Portada de fanzine Risograph",
+      "verdict": "declined",
+      "lineage": "fanzine duplicado a dos tintas fuera de registro",
+      "thesis": "Dos tintas impresas con desregistro deliberado; el tercer color solo aparece donde se cruzan.",
+      "palette": ["#FF4FA3", "#2B4FE0", "#EDE8DC"],
+      "materials": ["risografía a dos tintas", "papel prensa"],
+      "viewport": "Portada a dos tintas con el desregistro como figura principal.",
+      "case": "Fusiona mal: el desregistro y el rosa fluor contradicen el dorado y la elegancia que pide la marca; pierde en ambos ejes.",
+      "kept": "Un único solapamiento sancionado en todo el sistema.",
+      "hero": "https://impeccable.style/worlds/cards/posters-covers-sleeves-risograph-zine-cover-hero.webp"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "buildPath": { "value": "code", "toggle": false },
+  "canon": true,
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Foto a sangre, titular centrado, dos botones y una fila de tarjetas de plato iguales, ejecutados con oficio.",
+    "palette": ["#151515", "#FFFFFF", "#C9A538"],
+    "materials": ["foto de plato sobre degradado", "rejilla de tarjetas idénticas"],
+    "viewport": "El titular centrado con dos botones y, debajo, cuatro tarjetas de plato con la misma altura.",
+    "risk": "Indistinguible de la competencia por diseño."
+  },
+  "steer": true
+}

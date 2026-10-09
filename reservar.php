@@ -13,7 +13,7 @@ $pageTitle = 'Reservas - BackFlash';
 $metaDesc  = 'Reserva tu mesa en BackFlash: elige fecha, hora y número de personas en el mejor restaurante de comida colombiana de Pereira.';
 $nav       = 'reservas';
 $h1        = 'Reserva tu mesa';
-$h1sub     = 'Fácil y rápido';
+$h1sub     = 'Elige día, hora y comensales: la confirmación llega a tu correo.';
 
 // Los límites de fecha salen del mismo validador que los aplica en el servidor.
 $validadorReserva = new ReservaValidator();

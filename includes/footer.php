@@ -42,6 +42,16 @@
         <p>&copy; <?= e(SITE_YEAR) ?> <?= e(SITE_NAME) ?>. Todos los derechos reservados.
             <a href="<?= e(url('admin/login.php')) ?>" class="footer-admin">Administración</a>
         </p>
+        <span class="credito">
+            Fotografías:
+            <a href="https://commons.wikimedia.org/wiki/File:Bandeja_paisa_%285082434401%29.jpg" target="_blank" rel="noopener noreferrer">bandeja paisa</a> © Jorge Lascar (CC BY 2.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Estofado_de_carne.jpg" target="_blank" rel="noopener noreferrer">estofado</a> © PapiPijuan (CC BY-SA 4.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Sancocho_cruzado_de_gallina%2C_rabo_y_costilla_con_arepa.jpg" target="_blank" rel="noopener noreferrer">sancocho de pollo</a> © Rodolfo Pimentel (CC BY-SA 4.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Sancocho_de_pescado_%28gastronom%C3%ADa_Ecuatoriana%29.jpg" target="_blank" rel="noopener noreferrer">sancocho de pescado</a> © Kevinmero (CC BY-SA 4.0) ·
+            <a href="https://commons.wikimedia.org/wiki/File:Jugo_de_lulo.jpg" target="_blank" rel="noopener noreferrer">jugo de lulo</a> © Caldobasico (CC BY-SA 4.0) ·
+            <a href="https://www.flickr.com/photos/38102750@N06/8734808247" target="_blank" rel="noopener noreferrer">jugo de mora</a> © Breville USA (CC BY 2.0) ·
+            resto de imágenes: Unsplash (Unsplash License).
+        </span>
     </div>
 </footer>
 
