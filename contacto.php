@@ -5,6 +5,8 @@
  * los resultados (tanto los mensajes flash como los errores por campo).
  */
 
+use BackFlash\Validation\Reglas;
+
 require_once __DIR__ . '/includes/bootstrap.php';
 
 $pageTitle = 'Contacto - BackFlash';
@@ -20,12 +22,13 @@ require __DIR__ . '/includes/header.php';
         <div class="container1">
             <h2>Formulario de Contacto</h2>
 
-            <form action="<?= e(url('acciones/contacto.php')) ?>" method="post" id="contactForm" class="js-form" novalidate>
+            <form action="<?= e(url('actions/contacto.php')) ?>" method="post" id="contactForm" class="js-form" novalidate>
                 <?= csrf_field() ?>
 
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="nombre" autocomplete="name" required minlength="3"
+                    <input type="text" id="name" name="nombre" autocomplete="name" required
+                           minlength="<?= Reglas::NOMBRE_MIN ?>" maxlength="<?= Reglas::NOMBRE_MAX ?>"
                            value="<?= e(old('nombre')) ?>"<?= aria_invalido('nombre') ?>
                            aria-describedby="error-nombre">
                     <?php mostrar_error('nombre'); ?>
@@ -34,6 +37,7 @@ require __DIR__ . '/includes/header.php';
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
                     <input type="email" id="email" name="email" autocomplete="email" required
+                           maxlength="<?= Reglas::EMAIL_MAX ?>"
                            value="<?= e(old('email')) ?>"<?= aria_invalido('email') ?>
                            aria-describedby="error-email">
                     <?php mostrar_error('email'); ?>
@@ -41,7 +45,8 @@ require __DIR__ . '/includes/header.php';
 
                 <div class="form-group">
                     <label for="asunto">Asunto</label>
-                    <input type="text" id="asunto" name="asunto" required minlength="3"
+                    <input type="text" id="asunto" name="asunto" required
+                           minlength="<?= Reglas::ASUNTO_MIN ?>" maxlength="<?= Reglas::ASUNTO_MAX ?>"
                            value="<?= e(old('asunto')) ?>"<?= aria_invalido('asunto') ?>
                            aria-describedby="error-asunto">
                     <?php mostrar_error('asunto'); ?>
@@ -49,7 +54,9 @@ require __DIR__ . '/includes/header.php';
 
                 <div class="form-group">
                     <label for="message">Mensaje</label>
-                    <textarea id="message" name="mensaje" required minlength="10"<?= aria_invalido('mensaje') ?>
+                    <textarea id="message" name="mensaje" required
+                              minlength="<?= Reglas::MENSAJE_MIN ?>" maxlength="<?= Reglas::MENSAJE_MAX ?>"
+                              <?= aria_invalido('mensaje') ?>
                               aria-describedby="error-mensaje"><?= e(old('mensaje')) ?></textarea>
                     <?php mostrar_error('mensaje'); ?>
                 </div>

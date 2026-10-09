@@ -7,6 +7,9 @@
  *  4. redirige con mensaje de confirmación.
  */
 
+use BackFlash\Validation\Reglas;
+use BackFlash\Validation\ReservaValidator;
+
 require_once dirname(__DIR__) . '/includes/bootstrap.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -15,65 +18,40 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 csrf_check();
 
-$nombre    = post_str('nombre', 120);
-$email     = post_str('email', 160);
-$telefono  = post_str('telefono', 40);
-$fecha     = post_str('fecha', 10);
-$hora      = post_str('hora', 5);
-$personas  = post_str('personas', 3);
-$mensaje   = post_str('mensaje', 500);
+$datos = [
+    'nombre'   => post_str('nombre', Reglas::NOMBRE_MAX),
+    'email'    => post_str('email', Reglas::EMAIL_MAX),
+    'telefono' => post_str('telefono', Reglas::TELEFONO_MAX),
+    'fecha'    => post_str('fecha', 10),
+    'hora'     => post_str('hora', 5),
+    'personas' => post_str('personas', 3),
+    'mensaje'  => post_str('mensaje', Reglas::COMENTARIO_MAX),
+];
 
-$errores = [];
-
-if (mb_strlen($nombre) < 3) {
-    $errores['nombre'] = 'Escribe tu nombre completo (mínimo 3 caracteres).';
-}
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errores['email'] = 'Ingresa un correo electrónico válido.';
-}
-if (preg_replace('/\D/', '', $telefono) < 7) {
-    $errores['telefono'] = 'Ingresa un teléfono de contacto (mínimo 7 dígitos).';
-}
-if (!in_array($personas, array_map('strval', range(1, 20)), true)) {
-    $errores['personas'] = 'Elige entre 1 y 20 personas.';
-}
-
-$fechaObj = DateTimeImmutable::createFromFormat('!Y-m-d', $fecha);
-$hoje     = new DateTimeImmutable('today');
-
-if (!$fechaObj || $fechaObj->format('Y-m-d') !== $fecha) {
-    $errores['fecha'] = 'Selecciona una fecha válida.';
-} elseif ($fechaObj < $hoje) {
-    $errores['fecha'] = 'La fecha no puede ser anterior a hoy.';
-} elseif ($fechaObj > $hoje->modify('+90 days')) {
-    $errores['fecha'] = 'Solo aceptamos reservas con hasta 90 días de anticipación.';
-}
-
-if (!preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $hora)) {
-    $errores['hora'] = 'Selecciona una hora válida.';
-} else {
-    $minutos = (int) substr($hora, 0, 2) * 60 + (int) substr($hora, 3, 2);
-    if ($minutos < 11 * 60 || $minutos > 22 * 60) {
-        $errores['hora'] = 'Atendemos de 11:00 a. m. a 10:00 p. m.';
-    } elseif ($minutos % 15 !== 0) {
-        $errores['hora'] = 'Las reservas se agendan cada 15 minutos.';
+/** Vuelve al formulario conservando lo escrito (y los errores, si los hay). */
+$volverAlFormulario = static function (array $datos, array $errores = []): never {
+    if ($errores !== []) {
+        $datos['__errores'] = $errores;
     }
+    old_set($datos);
+    redirect('reservar.php');
+};
+
+// Las reglas viven en src/Validation/ReservaValidator.php (fuente única).
+$validador = new ReservaValidator();
+
+if (!$validador->validar($datos)) {
+    flash('error', 'No pudimos confirmar la reserva: revisa los campos marcados.');
+    $volverAlFormulario($datos, $validador->errores());
 }
 
-if ($errores) {
-    old_set([
-        'nombre'    => $nombre,
-        'email'     => $email,
-        'telefono'  => $telefono,
-        'fecha'     => $fecha,
-        'hora'      => $hora,
-        'personas'  => $personas,
-        'mensaje'   => $mensaje,
-        '__errores' => $errores,
-    ]);
-    flash('error', 'No pudimos confirmar la reserva: revisa los campos marcados.');
-    redirect('reservar.php');
-}
+$nombre   = $datos['nombre'];
+$email    = $datos['email'];
+$telefono = $datos['telefono'];
+$fecha    = $datos['fecha'];
+$hora     = $datos['hora'];
+$personas = $datos['personas'];
+$mensaje  = $datos['mensaje'];
 
 // Aforo: máximo 8 reservas por franja de 30 minutos
 $ocupadas = q(
@@ -83,17 +61,8 @@ $ocupadas = q(
 )->fetch();
 
 if ((int) $ocupadas['n'] >= 8) {
-    old_set([
-        'nombre'   => $nombre,
-        'email'    => $email,
-        'telefono' => $telefono,
-        'fecha'    => $fecha,
-        'hora'     => $hora,
-        'personas' => $personas,
-        'mensaje'  => $mensaje,
-    ]);
     flash('error', 'Esa franja horaria ya está llena. Elige otra hora, por ejemplo las ' . date('H:i', strtotime($hora . ':00 +45 minutes')) . '.');
-    redirect('reservar.php');
+    $volverAlFormulario($datos);
 }
 
 q(

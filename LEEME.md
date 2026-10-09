@@ -78,14 +78,14 @@ XAMPP cumple todos los requisitos tal cual.
 | `menu.php` | Carta completa (platos y bebidas) leída de la tabla `platos`. |
 | `reservar.php` | Formulario de reserva (fecha, hora, personas…). |
 | `contacto.php` | Formulario de contacto y datos del restaurante. |
-| `acciones/contacto.php` | Valida, guarda en `mensajes`, envía el correo y redirige. |
-| `acciones/reserva.php` | Valida, guarda en `reservas`, controla aforo y envía los correos. |
+| `actions/contacto.php` | Valida, guarda en `mensajes`, envía el correo y redirige. |
+| `actions/reserva.php` | Valida, guarda en `reservas`, controla aforo y envía los correos. |
 | `admin/` | Panel de administración (login + 4 secciones). |
-| `includes/` | Configuración, conexión PDO, funciones (CSRF, flash, correo) y plantillas de cabecera/pie. |
+| `includes/` | Configuración, conexión PDO, helpers modulares (`helpers/`) y plantillas de cabecera/pie. |
 | `database/schema.sql` | Esquema + datos iniciales. |
-| `js/main.js` | Validación en cliente con mensajes accesibles. |
-| `style.css` | Estilos completos (paleta dorada `#C9A538`, Poppins + Satisfy). |
-| `img/`, `images/` | Ilustraciones SVG originales (pesan pocos KB y escalan sin pérdida). |
+| `public/css/` | Estilos (`style.css` y `admin.css`) con paleta dorada `#C9A538`, Poppins + Satisfy. |
+| `public/js/` | Validación en cliente con mensajes accesibles (`main.js`). |
+| `public/assets/` | Ilustraciones SVG y recursos estáticos (`images/` fondos, `img/` logo, menú, subidas). |
 
 ---
 

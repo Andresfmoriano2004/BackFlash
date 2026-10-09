@@ -28,7 +28,7 @@ define('MAIL_LOG', dirname(__DIR__) . '/logs/mail.log');
 // --- Ruta base del proyecto (funciona en /BackFlash o desplegado en la raíz) ---
 $script = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '');
 $dir    = dirname($script);
-foreach (['/admin', '/acciones'] as $sub) {
+foreach (['/admin', '/actions', '/acciones'] as $sub) {
     if (str_ends_with($dir, $sub)) {
         $dir = substr($dir, 0, -strlen($sub));
         break;

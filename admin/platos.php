@@ -3,6 +3,9 @@
  * Alta, edición y borrado de platos del menú (con subida de imagen).
  */
 
+use BackFlash\Validation\PlatoValidator;
+use BackFlash\Validation\Reglas;
+
 require_once dirname(__DIR__) . '/includes/bootstrap.php';
 requerir_admin();
 
@@ -36,7 +39,7 @@ function subir_imagen(): ?string
         throw new RuntimeException('Formato no permitido: usa JPG, PNG o WEBP.');
     }
 
-    $destino = 'img/subidas/' . uniqid('plato_', true) . '.' . $permitidos[$mime];
+    $destino = 'public/assets/img/subidas/' . uniqid('plato_', true) . '.' . $permitidos[$mime];
     $ruta    = dirname(__DIR__) . '/' . $destino;
 
     if (!is_dir(dirname($ruta))) {
@@ -62,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $plato = q('SELECT imagen FROM platos WHERE id = ?', [$id])->fetch();
         if ($plato) {
             q('DELETE FROM platos WHERE id = ?', [$id]);
-            if ($plato['imagen'] && str_starts_with($plato['imagen'], 'img/subidas/')) {
+            if ($plato['imagen'] && (str_starts_with($plato['imagen'], 'img/subidas/') || str_starts_with($plato['imagen'], 'public/assets/img/subidas/'))) {
                 $fichero = dirname(__DIR__) . '/' . $plato['imagen'];
                 if (is_file($fichero)) {
                     @unlink($fichero);
@@ -74,25 +77,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($accion === 'guardar') {
-        $nombre      = post_str('nombre', 120);
-        $descripcion = post_str('descripcion', 255);
+        $nombre      = post_str('nombre', Reglas::NOMBRE_MAX);
+        $descripcion = post_str('descripcion', Reglas::PLATO_DESC_MAX);
         $precio      = post_str('precio', 12);
         $categoria   = post_str('categoria', 10);
         $orden       = (int) ($_POST['orden'] ?? 0);
         $destacado   = isset($_POST['destacado']) ? 1 : 0;
         $activo      = isset($_POST['activo']) ? 1 : 0;
 
-        $errores = [];
-
-        if (mb_strlen($nombre) < 2) {
-            $errores['nombre'] = 'Escribe el nombre del plato.';
-        }
-        if (!preg_match('/^\d{1,9}([.,]\d{1,2})?$/', $precio)) {
-            $errores['precio'] = 'Escribe un precio válido, por ejemplo 20000.';
-        }
-        if (!in_array($categoria, ['plato', 'bebida'], true)) {
-            $errores['categoria'] = 'Elige la categoría.';
-        }
+        // Las reglas viven en src/Validation/PlatoValidator.php (fuente única).
+        $validador = new PlatoValidator();
+        $validador->validar([
+            'nombre'    => $nombre,
+            'precio'    => $precio,
+            'categoria' => $categoria,
+        ]);
 
         $imagenActual = $id > 0 ? (string) (q('SELECT imagen FROM platos WHERE id = ?', [$id])->fetch()['imagen'] ?? '') : '';
         $imagenNueva  = null;
@@ -102,13 +101,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $imagenNueva = subir_imagen();
             }
         } catch (RuntimeException $e) {
-            $errores['imagen'] = $e->getMessage();
+            $validador->agregarError('imagen', $e->getMessage());
         }
 
         if (isset($_POST['quitar_imagen'])) {
             $imagenNueva = '';
             $imagenActual = '';
         }
+
+        $errores = $validador->errores();
 
         if ($errores) {
             old_set([
@@ -177,14 +178,14 @@ $platos = q('SELECT * FROM platos ORDER BY categoria, orden, nombre')->fetchAll(
 
             <div class="form-group">
                 <label for="p-nombre">Nombre *</label>
-                <input type="text" id="p-nombre" name="nombre" required maxlength="120"
+                <input type="text" id="p-nombre" name="nombre" required maxlength="<?= Reglas::NOMBRE_MAX ?>"
                        value="<?= e($editar['nombre'] ?? old('nombre')) ?>"<?= aria_invalido('nombre') ?>>
                 <?php mostrar_error('nombre'); ?>
             </div>
 
             <div class="form-group">
                 <label for="p-desc">Descripción</label>
-                <textarea id="p-desc" name="descripcion" rows="2" maxlength="255"><?= e($editar['descripcion'] ?? old('descripcion')) ?></textarea>
+                <textarea id="p-desc" name="descripcion" rows="2" maxlength="<?= Reglas::PLATO_DESC_MAX ?>"><?= e($editar['descripcion'] ?? old('descripcion')) ?></textarea>
             </div>
 
             <div class="form-row">
@@ -208,7 +209,7 @@ $platos = q('SELECT * FROM platos ORDER BY categoria, orden, nombre')->fetchAll(
             <div class="form-row">
                 <div class="form-group">
                     <label for="p-orden">Orden</label>
-                    <input type="number" id="p-orden" name="orden" min="0" max="999"
+                    <input type="number" id="p-orden" name="orden" min="0" max="<?= Reglas::PLATO_ORDEN_MAX ?>"
                            value="<?= (int) ($editar['orden'] ?? old('orden', 0)) ?>">
                 </div>
 

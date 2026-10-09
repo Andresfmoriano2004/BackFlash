@@ -1,0 +1,71 @@
+# ============================================================
+#  BackFlash — .gitignore
+#  PHP + MySQL en XAMPP, sin frameworks
+# ============================================================
+
+# --- Configuración local con credenciales ---
+# Si alguna vez separas config de ejemplo y config real:
+# includes/config.php      # descomenta si usas config.local.php
+includes/config.local.php
+
+# --- Logs del servidor ---
+logs/mail.log
+logs/*.log
+
+# --- Imágenes subidas por el admin (no forman parte del código) ---
+public/assets/img/subidas/*
+!public/assets/img/subidas/.gitkeep
+img/subidas/*
+!img/subidas/.gitkeep
+
+# --- Archivos de herramientas de IA / agentes (locales) ---
+.agent/
+.gemini/
+.opencode/
+.dsh/
+_dsh_acl_recovery/
+
+# --- Sistema operativo ---
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# --- Editores e IDEs ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- Dependencias (si en algún momento se añaden) ---
+/vendor/
+/node_modules/
+
+# --- Variables de entorno ---
+.env
+.env.local
+.env.*.local
+
+# --- Archivos de build/caché ---
+*.cache
+*.tmp
+*.bak
+*.orig
+
+# --- PHPUnit / Composer ---
+composer.lock
+phpunit.xml
+coverage/

@@ -1,0 +1,17 @@
+# ============================================================
+#  BackFlash — Reglas principales de Apache
+# ============================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Mapeo retrocompatible de rutas antiguas de assets hacia public/
+    RewriteRule ^style\.css$ public/css/style.css [L]
+    RewriteRule ^admin/admin\.css$ public/css/admin.css [L]
+    RewriteRule ^js/(.*)$ public/js/$1 [L]
+    RewriteRule ^img/(.*)$ public/assets/img/$1 [L]
+    RewriteRule ^images/(.*)$ public/assets/images/$1 [L]
+</IfModule>
+
+# Prevenir navegación de directorios sin index
+Options -Indexes

@@ -25,16 +25,16 @@ $enlacesAdmin = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Panel de administración de BackFlash: mensajes, reservas y menú.">
-    <link rel="icon" href="<?= e(url('img/favicon.svg')) ?>" type="image/svg+xml">
-    <link rel="stylesheet" href="<?= e(url('style.css')) ?>">
-    <link rel="stylesheet" href="<?= e(url('admin/admin.css')) ?>">
+    <link rel="icon" href="<?= e(url('public/assets/img/favicon.svg')) ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= e(url('public/css/style.css')) ?>">
+    <link rel="stylesheet" href="<?= e(url('public/css/admin.css')) ?>">
     <title><?= e($tituloPagina) ?> · BackFlash</title>
 </head>
 <body class="admin">
 
 <header class="admin-top">
     <a class="admin-logo" href="<?= e(url('admin/index.php')) ?>">
-        <img src="<?= e(url('img/favicon.svg')) ?>" alt="" width="28" height="28">
+        <img src="<?= e(url('public/assets/img/favicon.svg')) ?>" alt="" width="28" height="28">
         BackFlash <span>Admin</span>
     </a>
 

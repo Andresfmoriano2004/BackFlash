@@ -30,13 +30,13 @@ require __DIR__ . '/includes/header.php';
                     <a href="<?= e(url('reservar.php')) ?>" class="btn-1">Reservar mesa</a>
                 </div>
                 <div class="information-a1">
-                    <img src="<?= e(url('images/reservation.svg')) ?>" alt="Calendario de reservaciones del restaurante BackFlash">
+                    <img src="<?= e(url('public/assets/images/reservation.svg')) ?>" alt="Calendario de reservaciones del restaurante BackFlash">
                 </div>
             </div>
 
             <div class="information-2">
                 <div class="information-b1">
-                    <img src="<?= e(url('images/reservation2.svg')) ?>" alt="Salón del restaurante BackFlash en Pereira" loading="lazy">
+                    <img src="<?= e(url('public/assets/images/reservation2.svg')) ?>" alt="Salón del restaurante BackFlash en Pereira" loading="lazy">
                 </div>
                 <div class="information-c1">
                     <h3>Nosotros</h3>

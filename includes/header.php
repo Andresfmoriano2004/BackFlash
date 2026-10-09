@@ -33,10 +33,10 @@ $enlaces = [
     <meta property="og:type" content="website">
     <meta property="og:title" content="<?= e($pageTitle) ?>">
     <meta property="og:description" content="<?= e($metaDesc) ?>">
-    <meta property="og:image" content="<?= e(url('img/favicon.svg')) ?>">
+    <meta property="og:image" content="<?= e(url('public/assets/img/favicon.svg')) ?>">
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" href="<?= e(url('img/favicon.svg')) ?>" type="image/svg+xml">
-    <link rel="stylesheet" href="<?= e(url('style.css')) ?>">
+    <link rel="icon" href="<?= e(url('public/assets/img/favicon.svg')) ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= e(url('public/css/style.css')) ?>">
     <title><?= e($pageTitle) ?></title>
 </head>
 <body>
@@ -45,7 +45,7 @@ $enlaces = [
         <a href="<?= e(url('index.php')) ?>" class="logo"><?= e(SITE_NAME) ?></a>
         <input type="checkbox" id="menu" aria-label="Mostrar u ocultar el menú de navegación">
         <label for="menu">
-            <img src="<?= e(url('img/logo.svg')) ?>" class="menu-icono" alt="Menú de navegación">
+            <img src="<?= e(url('public/assets/img/logo.svg')) ?>" class="menu-icono" alt="Menú de navegación">
         </label>
         <nav class="navbar" id="nav-principal" aria-label="Navegación principal">
             <ul>

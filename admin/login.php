@@ -42,15 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Acceso al panel de administración de BackFlash: gestión de mensajes, reservas y menú.">
-    <link rel="icon" href="<?= e(url('img/favicon.svg')) ?>" type="image/svg+xml">
-    <link rel="stylesheet" href="<?= e(url('style.css')) ?>">
-    <link rel="stylesheet" href="<?= e(url('admin/admin.css')) ?>">
+    <link rel="icon" href="<?= e(url('public/assets/img/favicon.svg')) ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= e(url('public/css/style.css')) ?>">
+    <link rel="stylesheet" href="<?= e(url('public/css/admin.css')) ?>">
     <title>Acceso · BackFlash</title>
 </head>
 <body class="admin admin-login-body">
 
 <div class="admin-login">
-    <img class="admin-login-logo" src="<?= e(url('img/favicon.svg')) ?>" alt="" width="56" height="56">
+    <img class="admin-login-logo" src="<?= e(url('public/assets/img/favicon.svg')) ?>" alt="" width="56" height="56">
     <h1>BackFlash <span>Admin</span></h1>
     <p class="admin-login-sub">Gestión de mensajes, reservas y menú</p>
 

@@ -6,6 +6,9 @@
  *  4. redirige de vuelta con un mensaje.
  */
 
+use BackFlash\Validation\ContactoValidator;
+use BackFlash\Validation\Reglas;
+
 require_once dirname(__DIR__) . '/includes/bootstrap.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -14,37 +17,26 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 csrf_check();
 
-$nombre  = post_str('nombre', 120);
-$email   = post_str('email', 160);
-$asunto  = post_str('asunto', 160);
-$mensaje = post_str('mensaje', 4000);
+$datos = [
+    'nombre'  => post_str('nombre', Reglas::NOMBRE_MAX),
+    'email'   => post_str('email', Reglas::EMAIL_MAX),
+    'asunto'  => post_str('asunto', Reglas::ASUNTO_MAX),
+    'mensaje' => post_str('mensaje', Reglas::MENSAJE_MAX),
+];
 
-$errores = [];
+// Las reglas viven en src/Validation/ContactoValidator.php (fuente única).
+$validador = new ContactoValidator();
 
-if (mb_strlen($nombre) < 3) {
-    $errores['nombre'] = 'Escribe tu nombre (mínimo 3 caracteres).';
-}
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errores['email'] = 'Ingresa un correo electrónico válido.';
-}
-if (mb_strlen($asunto) < 3) {
-    $errores['asunto'] = 'El asunto debe tener al menos 3 caracteres.';
-}
-if (mb_strlen($mensaje) < 10) {
-    $errores['mensaje'] = 'El mensaje debe tener al menos 10 caracteres.';
-}
-
-if ($errores) {
-    old_set([
-        'nombre'     => $nombre,
-        'email'      => $email,
-        'asunto'     => $asunto,
-        'mensaje'    => $mensaje,
-        '__errores'  => $errores,
-    ]);
+if (!$validador->validar($datos)) {
+    old_set($datos + ['__errores' => $validador->errores()]);
     flash('error', 'No pudimos enviar el mensaje: revisa los campos marcados.');
     redirect('contacto.php');
 }
+
+$nombre  = $datos['nombre'];
+$email   = $datos['email'];
+$asunto  = $datos['asunto'];
+$mensaje = $datos['mensaje'];
 
 q(
     'INSERT INTO mensajes (nombre, email, asunto, mensaje) VALUES (?, ?, ?, ?)',

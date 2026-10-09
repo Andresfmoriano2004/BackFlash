@@ -34,7 +34,7 @@ require __DIR__ . '/includes/header.php';
             <div class="food-content">
                 <?php foreach (['plato' => 'Platos fuertes', 'bebida' => 'Bebidas'] as $clave => $titulo): ?>
                     <div class="left">
-                        <h3 class="food-titulo"><?= e($titulo) ?></h3>
+                        <h2 class="food-titulo"><?= e($titulo) ?></h2>
                         <?php foreach ($grupos[$clave] as $plato): ?>
                             <article class="food-1">
                                 <h3><?= e($plato['nombre']) ?></h3>

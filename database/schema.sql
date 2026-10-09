@@ -75,16 +75,16 @@ INSERT INTO usuarios (usuario, password_hash) VALUES
 ON DUPLICATE KEY UPDATE usuario = usuario;
 
 INSERT INTO platos (nombre, descripcion, precio, categoria, imagen, destacado, orden) VALUES
-('Bandeja paisa',      'Frijoles, carne molida, chicharrón, huevo, arepa y aguacate', 20000, 'plato', 'img/platos/bandeja-paisa.svg', 1, 1),
-('Estofado de carne',  'Carne en estofado con papas y vegetales',                     38000, 'plato', 'img/platos/estofado.svg',      1, 2),
-('Sancocho de pollo',  'Sancocho con yuca, plátano y mazorca',                         25000, 'plato', 'img/platos/sancocho-pollo.svg', 1, 3),
-('Sancocho de pescado','Sancocho de pescado con patacón y aguapanela',                 28000, 'plato', 'img/platos/sancocho-pescado.svg', 0, 4),
-('Espaguetis a la carbonara', 'Espaguetis con tocino, huevo y parmesano',              22000, 'plato', 'img/platos/carbonara.svg',      1, 5),
-('Jugo de mora',       'Jugo natural de mora servido con hielo',                       6000, 'bebida', 'img/bebidas/jugo-mora.svg',     0, 6),
-('Jugo de maracuyá',   'Jugo natural de maracuyá',                                      6000, 'bebida', 'img/bebidas/jugo-maracuya.svg', 0, 7),
-('Jugo de mango',      'Jugo natural de mango',                                         6000, 'bebida', 'img/bebidas/jugo-mango.svg',    0, 8),
-('Jugo de lulo',       'Jugo natural de lulo',                                           6000, 'bebida', 'img/bebidas/jugo-lulo.svg',     0, 9),
-('Café tinto',         'Café colombiano pasado',                                         4000, 'bebida', 'img/bebidas/cafe-tinto.svg',    0, 10)
+('Bandeja paisa',      'Frijoles, carne molida, chicharrón, huevo, arepa y aguacate', 20000, 'plato', 'public/assets/img/platos/bandeja-paisa.svg', 1, 1),
+('Estofado de carne',  'Carne en estofado con papas y vegetales',                     38000, 'plato', 'public/assets/img/platos/estofado.svg',      1, 2),
+('Sancocho de pollo',  'Sancocho con yuca, plátano y mazorca',                         25000, 'plato', 'public/assets/img/platos/sancocho-pollo.svg', 1, 3),
+('Sancocho de pescado','Sancocho de pescado con patacón y aguapanela',                 28000, 'plato', 'public/assets/img/platos/sancocho-pescado.svg', 0, 4),
+('Espaguetis a la carbonara', 'Espaguetis con tocino, huevo y parmesano',              22000, 'plato', 'public/assets/img/platos/carbonara.svg',      1, 5),
+('Jugo de mora',       'Jugo natural de mora servido con hielo',                       6000, 'bebida', 'public/assets/img/bebidas/jugo-mora.svg',     0, 6),
+('Jugo de maracuyá',   'Jugo natural de maracuyá',                                      6000, 'bebida', 'public/assets/img/bebidas/jugo-maracuya.svg', 0, 7),
+('Jugo de mango',      'Jugo natural de mango',                                         6000, 'bebida', 'public/assets/img/bebidas/jugo-mango.svg',    0, 8),
+('Jugo de lulo',       'Jugo natural de lulo',                                           6000, 'bebida', 'public/assets/img/bebidas/jugo-lulo.svg',     0, 9),
+('Café tinto',         'Café colombiano pasado',                                         4000, 'bebida', 'public/assets/img/bebidas/cafe-tinto.svg',    0, 10)
 ON DUPLICATE KEY UPDATE nombre = VALUES(nombre);
 
 -- Mensaje y reserva de ejemplo para probar el panel

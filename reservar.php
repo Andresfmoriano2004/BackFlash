@@ -4,6 +4,9 @@
  * Los datos llegan por POST a acciones/reserva.php.
  */
 
+use BackFlash\Validation\Reglas;
+use BackFlash\Validation\ReservaValidator;
+
 require_once __DIR__ . '/includes/bootstrap.php';
 
 $pageTitle = 'Reservas - BackFlash';
@@ -12,9 +15,10 @@ $nav       = 'reservas';
 $h1        = 'Reserva tu mesa';
 $h1sub     = 'Fácil y rápido';
 
-$hoy      = new DateTimeImmutable('today');
-$minFecha = $hoy->format('Y-m-d');
-$maxFecha = $hoy->modify('+90 days')->format('Y-m-d');
+// Los límites de fecha salen del mismo validador que los aplica en el servidor.
+$validadorReserva = new ReservaValidator();
+$minFecha         = $validadorReserva->fechaMinima();
+$maxFecha         = $validadorReserva->fechaMaxima();
 
 $proxBusy = q(
     'SELECT fecha, hora, personas FROM reservas
@@ -30,13 +34,14 @@ require __DIR__ . '/includes/header.php';
             <h2>Reserva de mesa</h2>
             <p class="form-intro">Completa el formulario y recibirás la confirmación por correo. Para grupos de más de 12 personas, escríbenos directamente.</p>
 
-            <form action="<?= e(url('acciones/reserva.php')) ?>" method="post" id="reserveForm" class="js-form" novalidate>
+            <form action="<?= e(url('actions/reserva.php')) ?>" method="post" id="reserveForm" class="js-form" novalidate>
                 <?= csrf_field() ?>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="r-nombre">Nombre completo</label>
-                        <input type="text" id="r-nombre" name="nombre" autocomplete="name" required minlength="3"
+                        <input type="text" id="r-nombre" name="nombre" autocomplete="name" required
+                               minlength="<?= Reglas::NOMBRE_MIN ?>" maxlength="<?= Reglas::NOMBRE_MAX ?>"
                                value="<?= e(old('nombre')) ?>"<?= aria_invalido('nombre') ?> aria-describedby="error-nombre">
                         <?php mostrar_error('nombre'); ?>
                     </div>
@@ -44,6 +49,7 @@ require __DIR__ . '/includes/header.php';
                     <div class="form-group">
                         <label for="r-email">Correo Electrónico</label>
                         <input type="email" id="r-email" name="email" autocomplete="email" required
+                               maxlength="<?= Reglas::EMAIL_MAX ?>"
                                value="<?= e(old('email')) ?>"<?= aria_invalido('email') ?> aria-describedby="error-email">
                         <?php mostrar_error('email'); ?>
                     </div>
@@ -53,6 +59,9 @@ require __DIR__ . '/includes/header.php';
                     <div class="form-group">
                         <label for="r-telefono">Teléfono</label>
                         <input type="tel" id="r-telefono" name="telefono" autocomplete="tel" required
+                               maxlength="<?= Reglas::TELEFONO_MAX ?>"
+                               pattern="<?= e(Reglas::patronTelefono()) ?>"
+                               data-mensaje-patron="Ingresa un teléfono de contacto (mínimo <?= Reglas::TELEFONO_DIGITOS_MIN ?> dígitos)."
                                placeholder="300 123 4567" value="<?= e(old('telefono')) ?>"<?= aria_invalido('telefono') ?>
                                aria-describedby="error-telefono">
                         <?php mostrar_error('telefono'); ?>
@@ -62,7 +71,7 @@ require __DIR__ . '/includes/header.php';
                         <label for="r-personas">Personas</label>
                         <select id="r-personas" name="personas" required<?= aria_invalido('personas') ?> aria-describedby="error-personas">
                             <option value="">Selecciona…</option>
-                            <?php for ($i = 1; $i <= 20; $i++): ?>
+                            <?php for ($i = Reglas::PERSONAS_MIN; $i <= Reglas::PERSONAS_MAX; $i++): ?>
                                 <option value="<?= $i ?>"<?= old('personas') == (string) $i ? ' selected' : '' ?>>
                                     <?= $i ?> <?= $i === 1 ? 'persona' : 'personas' ?>
                                 </option>
@@ -83,8 +92,10 @@ require __DIR__ . '/includes/header.php';
 
                     <div class="form-group">
                         <label for="r-hora">Hora</label>
-                        <input type="time" id="r-hora" name="hora" required step="900"
-                               min="11:00" max="22:00" value="<?= e(old('hora') ?: '19:00') ?>"
+                        <input type="time" id="r-hora" name="hora" required step="<?= Reglas::FRANJA_MINUTOS * 60 ?>"
+                               min="<?= e(Reglas::HORA_APERTURA) ?>" max="<?= e(Reglas::HORA_CIERRE) ?>"
+                               data-mensaje-paso="Las reservas se agendan cada <?= Reglas::FRANJA_MINUTOS ?> minutos."
+                               value="<?= e(old('hora') ?: '19:00') ?>"
                                <?= aria_invalido('hora') ?> aria-describedby="error-hora">
                         <?php mostrar_error('hora'); ?>
                     </div>
@@ -92,7 +103,7 @@ require __DIR__ . '/includes/header.php';
 
                 <div class="form-group">
                     <label for="r-mensaje">Comentarios (opcional)</label>
-                    <textarea id="r-mensaje" name="mensaje" maxlength="500"><?= e(old('mensaje')) ?></textarea>
+                    <textarea id="r-mensaje" name="mensaje" maxlength="<?= Reglas::COMENTARIO_MAX ?>"><?= e(old('mensaje')) ?></textarea>
                 </div>
 
                 <div class="form-group">

@@ -45,6 +45,6 @@
     </div>
 </footer>
 
-<script src="<?= e(url('js/main.js')) ?>" defer></script>
+<script src="<?= e(url('public/js/main.js')) ?>" defer></script>
 </body>
 </html>
