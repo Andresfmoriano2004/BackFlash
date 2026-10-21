@@ -217,6 +217,17 @@ main.admin-main::before {
     }
 }
 
+/* Título de pantalla: el único h1 del panel. 28px frente a los 20px del
+   h2 de panel (paso 1,4×) para que la jerarquía nunca quede plana. */
+.admin-titulo {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    letter-spacing: -.01em;
+    color: var(--ink);
+    margin-bottom: var(--s-5);
+}
+
 .admin-footer {
     background: var(--bg);
     text-align: center;
@@ -694,6 +705,42 @@ main.admin-main::before {
 
 :is(.panel, .form-admin, .admin-login) :is(input, select, textarea):focus {
     border-color: var(--gold-text);
+}
+
+/* El campo de archivo se excluye arriba porque su botón lo pinta el
+   navegador con la paleta del sistema (gris) y rompía la chasis dorada.
+   ::file-selector-button es el único pseudo-elemento admitido para
+   estilizarlo; se le da la forma de un botón secundario del panel. */
+input[type="file"] {
+    font-family: var(--font-sans);
+    font-size: max(16px, var(--fs-md));
+    color: var(--ink-soft);
+}
+
+input[type="file"]::file-selector-button {
+    font: 600 0.75rem/1 var(--font-sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold-text);
+    background: transparent;
+    border: 1px solid var(--gold-text);
+    border-radius: var(--r-sm);
+    padding: var(--s-4);          /* 16px + línea 12px + borde → 46px: objetivo táctil */
+    margin-inline-end: var(--s-3);
+    cursor: pointer;
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+
+input[type="file"]::file-selector-button:hover,
+input[type="file"]::file-selector-button:focus-visible {
+    background: var(--gold);
+    color: var(--on-gold);
+    border-color: var(--gold);
+}
+
+input[type="file"]:focus-visible {
+    outline: 2px solid var(--gold-text);
+    outline-offset: 2px;
 }
 
 /* style.css define .form-row en columna para los formularios públicos;

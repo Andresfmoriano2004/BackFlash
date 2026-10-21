@@ -3,14 +3,16 @@
  *
  * Aquí NO hay reglas de negocio ni autorización: el servidor valida,
  * comprueba CSRF y vuelve a comprobar cada acción. Este archivo hace
- * dos únicamente cosas de interfaz:
+ * tres únicamente cosas de interfaz:
  *
  *   1. Pregunta antes de enviar los formularios con data-confirm.
- *   2. Enseña una vista previa de la imagen del plato antes de subirla.
+ *   2. Centra en el menú horizontal la pestaña de la página activa.
+ *   3. Enseña una vista previa de la imagen del plato antes de subirla.
  *
  * Si el script no carga, los formularios siguen enviándose con normalidad
- * (la confirmación es un refuerzo, no una barrera) y el campo de archivo
- * sigue funcionando: solo se pierde la vista previa.
+ * (la confirmación es un refuerzo, no una barrera), el menú se sigue
+ * deslizando a mano y el campo de archivo sigue funcionando: solo se
+ * pierde la vista previa.
  */
 document.addEventListener('DOMContentLoaded', function () {
   'use strict';
@@ -36,7 +38,22 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   /* ---------------------------------------------------------------
-   * 2 · Vista previa de la imagen del plato
+   * 2 · Menú horizontal: dejar visible la página activa
+   *
+   * En móvil el menú se desliza en horizontal (overflow-x) y la pestaña
+   * activa puede quedar fuera de pantalla. Con JS se centra al cargar;
+   * sin él, el menú sigue siendo deslizable a mano.
+   * ------------------------------------------------------------- */
+  var navAdmin = document.querySelector('.admin-nav');
+  var activo   = navAdmin && navAdmin.querySelector('[aria-current="page"]');
+
+  if (activo) {
+    var centro = activo.offsetLeft - (navAdmin.clientWidth - activo.offsetWidth) / 2;
+    navAdmin.scrollLeft = Math.max(0, centro);
+  }
+
+  /* ---------------------------------------------------------------
+   * 3 · Vista previa de la imagen del plato
    * ------------------------------------------------------------- */
   var campo   = document.getElementById('p-img');
   var caja    = document.getElementById('p-img-preview');

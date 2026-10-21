@@ -60,3 +60,7 @@ $enlacesAdmin = [
         <div class="container"><?= e($alerta['texto']) ?></div>
     </div>
 <?php endforeach; ?>
+
+<?php /* Un solo h1 por pantalla: el nombre de la página. Los títulos de
+        panel siguen siendo h2, así la jerarquía nunca empieza en vacío. */ ?>
+<h1 class="admin-titulo"><?= e($tituloPagina) ?></h1>
